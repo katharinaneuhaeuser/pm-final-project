@@ -1,53 +1,29 @@
-# Problem Hook & Value Proposition: [StreamLine / RouteLogic / your initiative]
+# Problem Hook & Value Proposition, Module 1
 
-> **Module 1 · ★ Deliverable 1.** Repo file `01-product-thinking/problem-hook.md` — part of your submission.
-> Do the lab in the **Module 1 · Exercise 2 Guide** (linked from the Module 1 deck), then click **⬇ Download .md** — it saves as this exact file. Commit it here.
-> It becomes the **Problem, Value & Hypothesis** slide of your Module 6 final deck. (Your Module 1 · Exercise 1 discovery map lands in `strategic-map.md`.)
+- **Scenario:** StreamLine Spotlight (B2C)
 
-## 1. Chosen scenario
+## Strategic crisis
+If we do nothing for 12 months, StreamLine becomes a service people subscribe to but stop watching. High-intent viewers — the ones who come to discover something rather than re-run a comfort show — will take that intent to curated competitors and keep us only as a backup catalog, "just in case." Engagement keeps flattening and churn keeps climbing, while the cost base doesn't move: we'd still be paying premium acquisition prices for 15,000+ titles funded by a shrinking, lower-value subscriber base. The endgame is that "largest library" flips from competitive advantage to cost structure — we cede authority on discovery to smaller specialists, and eventually can't afford the one thing we're known for.
 
-**Path:** _StreamLine Spotlight (B2C) · RouteLogic Velocity (B2B) · my own initiative_
+## Moment of misery
+They ask Reddit, Letterboxd, critics' year-end lists, or a friends' group chat what's actually worth watching.
+They keep a private list — Notes app, a spreadsheet, screenshots — of titles to look up later.
+They then open StreamLine only to check whether we have it. We've been demoted from destination to search bar.
+The ones still browsing in-app fall back to their own hoarded Watchlist, scroll the same rows they scrolled last week, and close the app without pressing play.
 
-_One line on why you picked it._
+## Problem hook
+We're paying blockbuster prices for the world's largest library while our most valuable viewers do their discovering on Reddit and in spreadsheets and come to us only to check inventory — and the discovery habit they're building on someone else's platform is the subscription we lose next.
 
-## 2. The strategic crisis
+## Value proposition
+For High-intent, discovery-driven viewers — the loyal, high-value subscribers who open StreamLine without a title in mind, want to be shown something worth their evening, and currently outsource that decision to Reddit, Letterboxd, critics' lists and their own private watchlists. They are our lowest-churn, highest-LTV segment when engaged, and the segment specialist services are actively recruiting., we will Launch StreamLine Spotlight — a curated space inside the app where a small, human-programmed selection replaces the infinite scroll: a handful of films at a time, chosen and explained by people whose taste you can follow, with context for why each title is worth watching now. We're not adding more content; we're adding a point of view. Spotlight turns 15,000 titles from a search problem into a recommendation we've earned the right to make — so the decision that currently happens on Reddit happens in our app instead. because Discovery habits are forming elsewhere right now, and habits are sticky. Win-back always costs more than retention.  The assets are already paid for and curating them will be the cheapest lever. The competitive window is closing..
 
-_The big-picture business risk. If the company does nothing for 12 months, what happens to its market position?_
+## Cold-read self-review
+Strongest: the demotion. "We've been demoted from destination to inventory check" does all the work — specific, memorable, and measurable (search-mix, browse-to-play). The cost-structure flip behind it (library as moat → liability) is what makes it board-level rather than a UX complaint.
 
-> If we do nothing for 12 months, the company will…
+Weakest: the "why now." It's the only part with no evidence behind it. "Habits are sticky" is true every quarter, so a skeptic can agree with your entire diagnosis and still defer you to Q3.
 
-## 3. The moment of misery
+Sharpen, in order:
 
-_The specific point where the product fails the user, forcing a manual workaround (Google, spreadsheets, group texts, a competitor)._
-
-> The user is currently forced to…
-
-## 4. Problem hook
-
-_One urgent sentence fusing the business risk and the user pain, your pitch for why this is the most important thing to work on right now._
-
-> We must solve [business risk] by addressing [user pain]…
-
-## 5. Value proposition
-
-_Who it's for, the new value, and why it's urgent to launch now._
-
-> For **[who]**, we will **[value]** because **[urgent why]**.
-
-## 6. Cold-read self-review
-
-_Read your hook back as a skeptical stakeholder. If you don't feel the urgency, that's your data._
-
-| Question | Your answer |
-|---|---|
-| Is the business risk high-stakes enough to justify a new initiative? | _____ |
-| Is the moment of misery systemic, or just an edge case? | _____ |
-| Does the value proposition actually remove the obstacle? | _____ |
-
-## 7. Finalized hypothesis _(complete in Module 3)_
-
-> Based on [qual + quant evidence], I believe that [solving X] for [persona] will result in [outcome], as measured by a [X%] change in [success metric]. I will protect [guardrail metric] and make a go/no-go decision after [decision window].
-
-## Link to full artifact
-
-_[link to your Problem Hook Builder export]_
+Get a real clock — a renewal, a competitor launch, a scheduled pricing change. If none exists, make delay arithmetic: churn × win-back cost per quarter of waiting.
+Make the demotion a metric — direct-title-search share and no-play session rate, from existing research.
+One sentence on why Spotlight is a space, not a row — named destination, attributable curators, its own entry point.
