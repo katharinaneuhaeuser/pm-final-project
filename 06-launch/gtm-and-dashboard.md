@@ -1,7 +1,7 @@
 # GTM Strategy & Success Dashboard
 
-> **Module 6 · ★ Deliverable 6.** Repo file `06-launch/gtm-and-dashboard.md` — part of your submission.
-> It becomes the **GTM Strategy & Success Dashboard** slide of your Module 6 final deck.
+- **Module 6 · ★ Deliverable 6** · Scenario: StreamLine Spotlight (B2C)
+- Becomes the **GTM Strategy & Success Dashboard** slide. Sequenced around the experiment in [`experimentation-plan.md`](../05-experimentation/experimentation-plan.md)
 
 ## Go-to-market summary
 

@@ -1,11 +1,8 @@
 # Strategic Discovery Map
 
-> **Module 1 · Lab 1.** Repo file `01-product-thinking/strategic-map.md` — part of your submission.
-> Do the lab in the **Module 1 · Exercise 1 Guide** (linked from the Module 1 deck), then click **⬇ Download .md** — it saves as this exact file. Commit it here.
-> It's the discovery groundwork behind your `problem-hook.md`.
+- **Module 1 · Lab 1** · Scenario: StreamLine Spotlight (B2C)
+- **Not required for submission** — confirmed with the instructor
 
-## Responses
+This lab is discovery groundwork rather than a graded deliverable, and the cohort was told it could be skipped.
 
-- **Feature with no strategic answer (why is this a 12-week priority?):** _(not filled in)_
-- **Feature that looks "correct" but has zero strategic weight:** _(not filled in)_
-- **V3 vs your Step 1 baseline — what changed, and was it your PM knowledge that forced usefulness?:** _(not filled in)_
+The strategic work it would have fed is in [`problem-hook.md`](problem-hook.md): the twelve-month crisis, the moment of misery, the value proposition, and a cold-read self-review of where the argument is weakest. The question this lab asks — which features have no strategic answer — is answered in practice in [`roadmap-prd-prototype.md`](../04-roadmap/roadmap-prd-prototype.md), where four of eleven backlog items were cut and the reasoning recorded for each.

@@ -1,7 +1,7 @@
 # PRD & Prototype Sprint
 
-> **Module 4 · Lab 2.** Repo file `04-roadmap/prd-and-prototype.md` — part of your submission.
-> It deepens the top feature from your `roadmap-prd-prototype.md` and feeds the **Roadmap, PRD & Prototype** slide of your Module 6 deck.
+- **Module 4 · Lab 2** · Scenario: StreamLine Spotlight (B2C)
+- Deepens A1, the top feature from [`roadmap-prd-prototype.md`](roadmap-prd-prototype.md). The PRD itself is [`prd-spotlight-rail.md`](prd-spotlight-rail.md); the prototype is [`prototype-spotlight-rail.html`](prototype-spotlight-rail.html)
 
 ## Responses
 

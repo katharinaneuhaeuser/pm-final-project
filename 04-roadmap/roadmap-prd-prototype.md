@@ -1,7 +1,7 @@
 # Roadmap, PRD & Prototype
 
-> **Module 4 · ★ Deliverable 4.** Repo file `04-roadmap/roadmap-prd-prototype.md` — part of your submission.
-> It becomes the **Roadmap, PRD & Prototype** slide of your Module 6 final deck. (Your Module 4 · Exercise 2 PRD sprint lands in `prd-and-prototype.md`.)
+- **Module 4 · Lab 1 — ★ Deliverable 4** · Scenario: StreamLine Spotlight (B2C)
+- Becomes the **Roadmap, PRD & Prototype** slide. The Lab 2 PRD sprint is in [`prd-and-prototype.md`](prd-and-prototype.md)
 
 ## Strategic anchors
 

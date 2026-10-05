@@ -16,6 +16,18 @@ My view is that it is harder to get a wanderer to change their behaviour than to
 
 I have written this up as a judgement rather than as something the numbers decided, because that is what it is. It gives up about $168 a month per 1,000 subscribers in measured retained revenue, in exchange for a prevention benefit I cannot size — nothing in the data gives a rate for how fast a casual browser turns into a wanderer. Using my own experience felt good. It also felt risky, and I would rather state the risk than hide it behind the parts of the data that happen to agree with me.
 
+**Not all the evidence behind my persona is behavioural, and I kept going anyway.**
+
+Everything that establishes the *problem* is behavioural — twenty-minute scrolls ending in nothing, the same four comfort shows, 2.3 sessions a week, 44% of watching coming from trending rows. That is people doing things, and I trust it.
+
+Most of what pointed at curation as the *answer* is attitudinal — people saying what they would like. UXR-03 says discovering feels like a chore "so I don't", which is someone opting out, not someone asking to be guided. UXR-09 and UXR-12 ask to be told what is good tonight, but that is a stated preference, and people are not reliable at predicting what they would actually use.
+
+I noticed this in the Module 1 self-review. It was a fair moment to pivot — either to a different solution, or to go and find behavioural evidence before building on it. I did neither. I wrote the weakness down and carried on.
+
+It partly worked out. The Module 3 data showed Spotlight had been running as a pilot since December and those cohorts retain 12–15 points better, which is behavioural evidence that people do use a curated surface and stay. But I did not go looking for that; it turned up later, in a data snapshot I had not read yet.
+
+So the honest version is not "I should have pivoted." It is that I was comfortable building on stated preference for longer than I should have been, and what rescued it was data that had been sitting there the whole time.
+
 ## Key learnings
 
 **Use AI, but do not put it in the driver's seat.**

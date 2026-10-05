@@ -1,7 +1,7 @@
 # Experimentation Plan
 
-> **Module 5 · ★ Deliverable 5.** Repo file `05-experimentation/experimentation-plan.md` — part of your submission.
-> It becomes the **Experimentation Plan** slide of your Module 6 final deck.
+- **Module 5 · ★ Deliverable 5** · Scenario: StreamLine Spotlight (B2C)
+- Becomes the **Experimentation Plan** slide. Tests A1, specified in [`prd-spotlight-rail.md`](../04-roadmap/prd-spotlight-rail.md)
 
 ## Overview
 

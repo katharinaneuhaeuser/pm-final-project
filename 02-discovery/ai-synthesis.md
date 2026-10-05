@@ -1,17 +1,23 @@
 # AI Synthesis, Product Health & Insights Summary (Module 2)
 
-> **Module 2 · Lab 1.** Repo file `02-discovery/ai-synthesis.md` — part of your submission.
-> It feeds the **Research & Competitive Analysis** slide of your Module 6 final deck, alongside `competitive-and-journey.md`.
+- **Module 2 · Lab 1** · Scenario: StreamLine Spotlight (B2C)
+- Feeds the **Research & Competitive Analysis** slide, alongside [`competitive-and-journey.md`](competitive-and-journey.md)
 
-## Responses
+## The exercise
 
-- **Moment of misery / red flag #1 (e.g., "user gave up after 3 tries"):** Loading spinner, then kicked to home screen when selecting a video
+Read the raw research first, unaided — 12 UXR notes and 10 open bug reports — and write down the moments of misery by hand. Then give the same material to an AI with a tight brief: thematic synthesis only, no roadmap, no recommendations, low-priority defects aggregated into a single line. Then compare the two and find where the AI's version is weaker than it looks.
 
-- **Moment of misery / red flag #2:** watchlist does not sync mobile & tv (cross-device)
+The point is not whether the AI is any good. It is learning where it quietly loses things.
 
-- **Moment of misery / red flag #3:** user is muting tv because the auto-play trailer starts too fast
+## Step 1 · What I found reading the raw data myself
 
-- **Product Health & Insights Summary (Claude's output):**
+- **Moment of misery / red flag #1:** Loading spinner, then kicked to home screen when selecting a video
+- **Moment of misery / red flag #2:** Watchlist does not sync mobile & TV (cross-device)
+- **Moment of misery / red flag #3:** User is muting the TV because the autoplay trailer starts too fast
+
+## Step 2 · What the AI produced
+
+The full output is committed separately at [`product-health-summary.md`](product-health-summary.md), with a **severity provenance** section added afterwards in response to logic leak #1 below. Reproduced here as it was returned:
 
   > **Product Health & Insights Summary**
   > 22. Sept. 2026 · @Katharina
@@ -62,12 +68,40 @@
   >
   > Subtitle timing drifting approximately 2 seconds on titles over 90 minutes, cover-art thumbnails falling back to grey placeholders on slow connections, and completed titles persisting in Continue Watching for up to 48 hours; individually cosmetic, collectively a steady erosion of perceived polish — Low
 
-- **Did the AI catch the specific moment of misery / pain point you found in Step 1?:** 2 out of the 3 pain points I identified were found
+## Step 3 · The critique
 
-- **Did it smooth over a critical frustration into a generic bullet point?:** yes, it summarized the findings in a more general way and simplified the user feedback too much in my opinion.
+**Did the AI catch the specific moments of misery I found in Step 1?**
 
-- **Did the AI try to suggest features or a roadmap despite the constraints?:** no features or roadmap items suggested
+Two of the three came back intact. The playback drop and the My List sync failure are both there, at the severity the tracker gives them.
 
-- **Logic leak / hallucination #1 (e.g., "AI suggested a new search bar feature, roadmap leak"):** It would be helpful if the summary differentiated between input from the bug list and input from the user interviews. That way, the actionability and reliability of description of the issues would be more clear.
+The third survived as a defect but not as the behaviour. I recorded it as a timing problem — the trailer starts before you have finished reading the title. The output records a volume problem: "plays at full volume, ignoring the last volume setting." The prose above the bullet does say it "interrupts the act of reading a title", so the observation exists in the document. It just did not make it into the line a prioritisation meeting would actually read.
 
-- **Logic leak / hallucination #2:** AI talked about 12 user research sessions, when it was only 12 notes and unclear number of sessions
+**Did it smooth over a critical frustration into a generic bullet point?**
+
+Yes. It generalised the findings and simplified the user feedback more than I would have.
+
+Autoplay is the clearest case. A user muted their television permanently to escape it — they removed audio from the product rather than use it as built. That is a person abandoning a core function, and it is recorded as Medium, because Medium is what the bug tracker says. The defect severity is preserved and the behavioural consequence is lost.
+
+**Did the AI try to suggest features or a roadmap despite the constraints?**
+
+Not in the document. The constraint held exactly where I had placed it.
+
+It did not hold around the document. In the conversation either side of the output, the same assistant volunteered segment recommendations, metric designs and a persona pivot, none of which I had asked for. A constraint scoped to an artifact does not bind the surrounding conversation — worth knowing, because the artifact is the part you check.
+
+**Logic leak #1 — two sources, one voice.**
+
+The summary does not distinguish what came from the bug tracker from what came from the interviews. Everything is rendered in the same format with the same severity labels, so a reader cannot tell which items carry a reproducible defect behind them and which are a judgement about how strongly users felt. That matters for both actionability and reliability.
+
+Some of the High severities turned out to be assigned rather than sourced: "no mood-based browsing exists" and "extended sessions terminate without a play" have no tracker equivalent at all. **Fixed** by adding a severity provenance split to [`product-health-summary.md`](product-health-summary.md), separating the ten tracker severities from the four the AI assigned itself.
+
+**Logic leak #2 — 12 sessions that were never 12 sessions.**
+
+The output opens with "thematic synthesis of 12 user research sessions." There were 12 research *notes*. How many sessions produced them is not stated anywhere in the source. The number was carried over and relabelled, which reads as more primary research than the project actually has.
+
+## What I took from it
+
+The failure mode was not invention. Nothing in the output is made up, and on the brief it was given, it is a good document.
+
+The failure mode is flattening — losing the difference between a tracked defect and a researcher's judgement, between a person annoyed and a person who gave up, between a note and a session. None of that shows up as an error. It shows up as a summary that reads slightly more confident and slightly more uniform than the evidence underneath it.
+
+So the AI is reliable for the first pass and not for the severity call, and both the moment of misery and the persona had to come from reading the raw notes myself. This is where the habit of checking its claims against the source started; it carried through the rest of the project, and the wider version of it is in [`06-launch/individual-insights.md`](../06-launch/individual-insights.md).
