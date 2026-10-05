@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StreamLine Spotlight — Now / Next / Later Roadmap</title>
+<style>
+  :root{
+    --ink:#1b1c1f; --ink-2:#4a4d55; --ink-3:#7c8089;
+    --line:#e3e3e7; --bg:#fbfbfc; --card:#fff;
+    --qw:#1f7a52; --qw-bg:#e8f4ee; --qw-br:#cfe6da;
+    --mp:#3d4bb8; --mp-bg:#eceefc; --mp-br:#d4d8f5;
+    --fi:#9a6a1f; --fi-bg:#fbf2e2; --fi-br:#eddfc4;
+    --ts:#9d3b3b; --ts-bg:#fbeceb; --ts-br:#f0d3d1;
+    --now:#1f7a52; --next:#3d4bb8; --later:#7c8089;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:38px 30px 56px;background:var(--bg);color:var(--ink);
+    font:15px/1.55 "Segoe UI",-apple-system,system-ui,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1340px;margin:0 auto}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.02em;font-weight:650}
+  .sub{font-size:13.5px;color:var(--ink-3);margin:0 0 16px}
+  .anchors{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:9px 26px}
+  .anchors div{font-size:13px;color:var(--ink-2);line-height:1.45}
+  .anchors b{display:block;color:var(--ink-3);font-size:10px;text-transform:uppercase;
+    letter-spacing:.09em;font-weight:650;margin-bottom:2px}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;align-items:center}
+  .filters .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--ink-3);font-weight:650;margin-right:2px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:5px 13px;font-size:12.5px;color:var(--ink-2);cursor:pointer;
+    font-family:inherit;transition:all .12s}
+  .chip:hover{border-color:#c8c8cf}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:34px}
+  .lane{background:var(--card);border:1px solid var(--line);border-radius:11px;
+    padding:18px 17px;display:flex;flex-direction:column}
+  .lane-head{display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:4px;padding-bottom:11px;border-bottom:2px solid currentColor}
+  .lane-head h2{margin:0;font-size:14px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
+  .lane-head span{font-size:11.5px;color:var(--ink-3);letter-spacing:0;text-transform:none;font-weight:400}
+  .lane-now .lane-head{color:var(--now)} .lane-next .lane-head{color:var(--next)}
+  .lane-later .lane-head{color:var(--later)}
+
+  .card{border:1px solid var(--line);border-radius:9px;padding:14px 15px;margin-top:13px;
+    background:#fff;transition:opacity .16s, filter .16s}
+  .card.dim{opacity:.26;filter:saturate(.3)}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .card h3{margin:0;font-size:14.5px;font-weight:650;letter-spacing:-.005em;line-height:1.3}
+  .card h3 .id{color:var(--ink-3);font-weight:600;margin-right:5px}
+  .badge{flex:none;font-size:10px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;
+    padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid}
+  .b-qw{color:var(--qw);background:var(--qw-bg);border-color:var(--qw-br)}
+  .b-mp{color:var(--mp);background:var(--mp-bg);border-color:var(--mp-br)}
+  .b-fi{color:var(--fi);background:var(--fi-bg);border-color:var(--fi-br)}
+  .b-ts{color:var(--ts);background:var(--ts-bg);border-color:var(--ts-br)}
+  .card p{margin:0 0 10px;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+  .ve{display:flex;gap:16px;font-size:10.5px;color:var(--ink-3);
+    text-transform:uppercase;letter-spacing:.07em;font-weight:650;align-items:center}
+  .ve i{font-style:normal;display:inline-flex;gap:2.5px;margin-left:5px;vertical-align:middle}
+  .pip{width:6px;height:6px;border-radius:50%;background:#dcdce1;display:block}
+  .pip.on{background:var(--ink-2)}
+
+  .cut{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:18px 19px}
+  .cut-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .cut-head h2{margin:0;font-size:14px;letter-spacing:.09em;text-transform:uppercase;
+    font-weight:700;color:var(--ts)}
+  .cut-head p{margin:4px 0 0;font-size:12.5px;color:var(--ink-3);flex-basis:100%}
+  .cut-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin-top:15px}
+  .cut .card{margin-top:0;background:#fdfcfc}
+
+  footer{margin-top:34px;padding-top:15px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-3)}
+
+  @media (max-width:980px){ .lanes{grid-template-columns:1fr} .cut-grid{grid-template-columns:1fr} }
+  @media (max-width:560px){ body{padding:24px 15px 40px} }
+  @media print{ body{background:#fff;padding:0} .filters{display:none} .card.dim{opacity:1;filter:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>StreamLine Spotlight — Now / Next / Later</h1>
+  <p class="sub">2 engineers + 1 designer · 3-week sprint · Module 4 Lab 1</p>
+  <div class="anchors">
+    <div><b>Persona</b>The Resigned Browser — the 37% who open StreamLine two or three times a week with no title in mind</div>
+    <div><b>Primary metric</b>Casual browsers with a 30+ min session per week · 11% → 14% · Spotlight reach 18% → 35%</div>
+    <div><b>Moment of misery</b>Discovery costs more than the evening is worth, so they re-watch something known or leave with nothing played</div>
+    <div><b>Guardrails</b>Total weekly plays not more than 5% below control · Month-1 retention not more than 2 pts below</div>
+  </div>
+</header>
+
+<div class="filters">
+  <span class="lbl">Filter by quadrant</span>
+  <button class="chip" data-q="all" aria-pressed="true">All</button>
+  <button class="chip" data-q="qw" aria-pressed="false">Quick Win</button>
+  <button class="chip" data-q="mp" aria-pressed="false">Major Project</button>
+  <button class="chip" data-q="fi" aria-pressed="false">Fill-In</button>
+  <button class="chip" data-q="ts" aria-pressed="false">Time Sinker</button>
+</div>
+
+<div class="lanes">
+
+  <section class="lane lane-now">
+    <div class="lane-head"><h2>Now</h2><span>3-week sprint</span></div>
+
+    <article class="card" data-q="qw">
+      <div class="card-top">
+        <h3><span class="id">A1</span>Spotlight Curated Rail</h3>
+        <span class="badge b-qw">Quick Win</span>
+      </div>
+      <p>The reach mechanism — puts the already-proven curated selection in the prime slot, where the other 82% will meet it. Ships with manual curation, not bespoke curator tooling.</p>
+      <div class="ve">
+        <span>Value <i data-v="5"></i></span><span>Effort <i data-e="2"></i></span>
+      </div>
+    </article>
+
+    <article class="card" data-q="qw">
+      <div class="card-top">
+        <h3><span class="id">A6</span>Spotlight Digest Email</h3>
+        <span class="badge b-qw">Quick Win</span>
+      </div>
+      <p>The only feature that creates a session rather than improving one, and the only one that reaches the viewer who stopped opening the app. UXR-04 is direct competitor proof it works.</p>
+      <div class="ve">
+        <span>Value <i data-v="4"></i></span><span>Effort <i data-e="2"></i></span>
+      </div>
+    </article>
+  </section>
+
+  <section class="lane lane-next">
+    <div class="lane-head"><h2>Next</h2><span>following 1–2 sprints</span></div>
+
+    <article class="card" data-q="mp">
+      <div class="card-top">
+        <h3><span class="id">A2</span>“Why You'll Love This” Label</h3>
+        <span class="badge b-mp">Major Project</span>
+      </div>
+      <p>Human-written curator notes ship inside A1; the AI-generated version is a separate project, worth building only once the concept is proven.</p>
+      <div class="ve">
+        <span>Value <i data-v="4"></i></span><span>Effort <i data-e="3"></i></span>
+      </div>
+    </article>
+
+    <article class="card" data-q="mp">
+      <div class="card-top">
+        <h3><span class="id">A7</span>Curator Profiles</h3>
+        <span class="badge b-mp">Major Project</span>
+      </div>
+      <p>The switching-cost mechanism from the journey map's Return stage — but it needs curation worth following to exist first.</p>
+      <div class="ve">
+        <span>Value <i data-v="4"></i></span><span>Effort <i data-e="3"></i></span>
+      </div>
+    </article>
+  </section>
+
+  <section class="lane lane-later">
+    <div class="lane-head"><h2>Later</h2><span>backlog</span></div>
+
+    <article class="card" data-q="fi">
+      <div class="card-top">
+        <h3><span class="id">A3</span>Hidden Gem Badge</h3>
+        <span class="badge b-fi">Fill-In</span>
+      </div>
+      <p>Cheap and surfaces the back catalogue, but a badge nudges rather than decides — it needs a working rail to sit on before it earns anything.</p>
+      <div class="ve">
+        <span>Value <i data-v="3"></i></span><span>Effort <i data-e="1"></i></span>
+      </div>
+    </article>
+
+    <article class="card" data-q="qw">
+      <div class="card-top">
+        <h3><span class="id">A11</span>Play Something</h3>
+        <span class="badge b-qw">Quick Win</span>
+      </div>
+      <p>One title, one tap, no choice — triggered when a session passes the give-up threshold. The only item that addresses the experience gap directly instead of preventing it. Held for Later on purpose: the week-6 read decides whether prevention was enough.</p>
+      <div class="ve">
+        <span>Value <i data-v="4"></i></span><span>Effort <i data-e="2"></i></span>
+      </div>
+    </article>
+
+    <article class="card" data-q="mp">
+      <div class="card-top">
+        <h3><span class="id">A9</span>Advanced Filter Engine</h3>
+        <span class="badge b-mp">Major Project</span>
+      </div>
+      <p>Weak as a user-facing feature for a persona who won't assemble a query — but the normalised metadata beneath it is what curator tooling and hidden-gem detection both sit on. Scored as an enabler, not as a filter UI.</p>
+      <div class="ve">
+        <span>Value <i data-v="4"></i></span><span>Effort <i data-e="3"></i></span>
+      </div>
+    </article>
+  </section>
+
+</div>
+
+<section class="cut">
+  <div class="cut-head">
+    <h2>✂ Cut List</h2>
+    <p>The “no” being protected: features that sit <strong>downstream of the decision</strong> — they improve the experience after a choice is made, for a persona who never gets that far.</p>
+  </div>
+  <div class="cut-grid">
+
+    <article class="card" data-q="ts">
+      <div class="card-top">
+        <h3><span class="id">A4</span>Mood-Based Entry Point</h3>
+        <span class="badge b-ts">Time Sinker</span>
+      </div>
+      <p>Serves the Occasion Browser persona we deliberately rejected, and puts a decision in front of the content for someone whose problem is too many decisions.</p>
+      <div class="ve"><span>Value <i data-v="3"></i></span><span>Effort <i data-e="3"></i></span></div>
+    </article>
+
+    <article class="card" data-q="ts">
+      <div class="card-top">
+        <h3><span class="id">A5</span>Personalized Spotlight Queue</h3>
+        <span class="badge b-ts">Time Sinker</span>
+      </div>
+      <p>Re-introduces the personalisation loop Spotlight exists to break. A taste-profiled Spotlight is the recommendation row with a new name.</p>
+      <div class="ve"><span>Value <i data-v="2"></i></span><span>Effort <i data-e="4"></i></span></div>
+    </article>
+
+    <article class="card" data-q="ts">
+      <div class="card-top">
+        <h3><span class="id">A8</span>Watch Party (Spotlight)</h3>
+        <span class="badge b-ts">Time Sinker</span>
+      </div>
+      <p>Coordination infrastructure for a group that has already agreed what to watch — downstream of the decision we're fixing.</p>
+      <div class="ve"><span>Value <i data-v="1"></i></span><span>Effort <i data-e="5"></i></span></div>
+    </article>
+
+    <article class="card" data-q="ts">
+      <div class="card-top">
+        <h3><span class="id">A10</span>Offline Download (Spotlight)</h3>
+        <span class="badge b-ts">Time Sinker</span>
+      </div>
+      <p>Changes where you watch, not whether you chose. It presupposes the decision this persona never reaches.</p>
+      <div class="ve"><span>Value <i data-v="1"></i></span><span>Effort <i data-e="4"></i></span></div>
+    </article>
+
+  </div>
+</section>
+
+<footer>Module 4 · Lab 1 · Now / Next / Later roadmap — StreamLine Spotlight. Quadrant rule: Value ≥ 4 is high, Effort ≤ 2 is low.</footer>
+
+</div>
+
+<script>
+  // value / effort pips
+  document.querySelectorAll('.ve i').forEach(function (el) {
+    var n = parseInt(el.dataset.v || el.dataset.e, 10);
+    for (var i = 1; i <= 5; i++) {
+      var p = document.createElement('span');
+      p.className = 'pip' + (i <= n ? ' on' : '');
+      el.appendChild(p);
+    }
+  });
+
+  // quadrant filter
+  var chips = document.querySelectorAll('.chip');
+  var cards = document.querySelectorAll('.card');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var q = chip.dataset.q;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+      cards.forEach(function (card) {
+        card.classList.toggle('dim', q !== 'all' && card.dataset.q !== q);
+      });
+    });
+  });
+</script>
+</body>
+</html>

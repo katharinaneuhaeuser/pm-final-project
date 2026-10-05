@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Future-State Journey Map — StreamLine Spotlight</title>
+<style>
+  :root{
+    --ink:#1b1c1f; --ink-2:#4a4d55; --ink-3:#7c8089;
+    --line:#e2e2e6; --bg:#fbfbfc; --card:#fff;
+    --accent:#3d4bb8; --accent-soft:#eef0fc;
+    --decay:#a9713c; --decay-soft:#f8f1e8;
+    --good:#2f7a5a; --good-soft:#eaf4ef;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:40px 32px 56px; background:var(--bg); color:var(--ink);
+    font:15px/1.55 "Segoe UI",-apple-system,system-ui,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1320px;margin:0 auto}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:34px}
+  h1{font-size:27px;line-height:1.2;margin:0 0 14px;letter-spacing:-.02em;font-weight:650}
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 26px;margin:0}
+  .meta div{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+  .meta b{display:block;color:var(--ink-3);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.09em;font-weight:650;margin-bottom:3px}
+
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.11em;color:var(--ink-3);
+    font-weight:650;margin:0 0 14px}
+  section{margin-bottom:38px}
+
+  /* today strip */
+  .today{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .t-step{flex:1 1 130px;background:var(--decay-soft);border:1px solid #ecdfd0;
+    border-radius:7px;padding:11px 13px;position:relative}
+  .t-step + .t-step{margin-left:26px}
+  .t-step + .t-step::before{content:"→";position:absolute;left:-20px;top:50%;
+    transform:translateY(-50%);color:var(--decay);font-size:15px}
+  .t-step strong{display:block;font-size:13.5px;color:#7d5227;margin-bottom:2px;font-weight:620}
+  .t-step span{font-size:12px;color:#8a6a4c;line-height:1.4;display:block}
+  .loopback{margin-top:9px;font-size:12px;color:var(--decay);font-style:italic;line-height:1.5}
+  .t-split{background:#f3e7d9;border-color:#e0cbb2}
+  .t-split em{font-style:normal;color:#7d5227;font-weight:600}
+  .mood{display:block;margin-top:7px;padding-top:6px;border-top:1px solid rgba(169,113,60,.22);
+    font-size:11px;color:#9a7550;font-style:italic}
+  .mood b{font-style:normal;font-weight:650;color:#7d5227}
+  .t-point{display:block;margin-top:4px;font-size:10.5px;color:#a98a6a;
+    text-transform:uppercase;letter-spacing:.05em}
+  .t-gap{border-color:var(--decay);background:#f2e3d2;box-shadow:0 6px 18px rgba(169,113,60,.18)}
+  .t-gap .mood b{color:#8a4f1d}
+  .gaptag{display:inline-block;margin-top:6px;font-size:10px;font-weight:650;letter-spacing:.06em;
+    text-transform:uppercase;color:#fff;background:var(--decay);border-radius:4px;padding:2px 7px}
+
+  /* stages */
+  .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .stage{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:20px 19px 18px;display:flex;flex-direction:column;
+    box-shadow:0 1px 2px rgba(20,20,30,.04)}
+  .num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+    font-size:13px;font-weight:650;display:flex;align-items:center;justify-content:center;
+    margin-bottom:11px;flex:none}
+  .stage h3{margin:0 0 13px;font-size:17px;letter-spacing:-.01em;font-weight:650}
+  .ab{background:var(--accent-soft);border-radius:7px;padding:11px 12px;margin-bottom:15px;
+    font-size:13.5px;line-height:1.45;color:#2b2f6b}
+  .ab .arrow{color:var(--accent);font-weight:650;padding:0 2px}
+  .row{margin-bottom:11px}
+  .row:last-child{margin-bottom:0}
+  .row b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--ink-3);font-weight:650;margin-bottom:3px}
+  .row p{margin:0;font-size:13px;line-height:1.48;color:var(--ink-2)}
+
+  /* advantages */
+  .adv{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .a-card{background:var(--good-soft);border:1px solid #d6e8de;border-radius:10px;padding:18px 19px}
+  .a-card h4{margin:0 0 7px;font-size:14.5px;color:#1f5c42;font-weight:650;line-height:1.3}
+  .a-card p{margin:0;font-size:13px;line-height:1.5;color:#33584a}
+  .a-num{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--good);
+    font-weight:650;display:block;margin-bottom:6px}
+
+  /* strategy mapping */
+  .strat{width:100%;border-collapse:collapse;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .strat th{text-align:left;vertical-align:top;width:200px;padding:14px 18px;
+    font-size:13.5px;font-weight:650;color:var(--accent);background:var(--accent-soft);
+    border-bottom:1px solid var(--line);line-height:1.35}
+  .strat td{padding:14px 18px;font-size:13px;line-height:1.5;color:var(--ink-2);
+    border-bottom:1px solid var(--line)}
+  .strat tr:last-child th,.strat tr:last-child td{border-bottom:none}
+  @media (max-width:700px){
+    .strat,.strat tr,.strat th,.strat td{display:block;width:auto}
+    .strat th{border-bottom:none;border-radius:0}
+    .strat td{padding-top:8px}
+  }
+
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-3)}
+
+  @media (max-width:1080px){
+    .stages{grid-template-columns:repeat(2,1fr)}
+    .adv{grid-template-columns:1fr}
+    .t-step + .t-step{margin-left:0}
+    .t-step + .t-step::before{display:none}
+    .today{gap:8px}
+  }
+  @media (max-width:560px){ .stages{grid-template-columns:1fr} body{padding:26px 16px 40px} }
+  @media print{ body{background:#fff;padding:0} .stage{box-shadow:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Future-State Journey Map — StreamLine Spotlight</h1>
+  <div class="meta">
+    <div><b>Persona</b>The Resigned Browser — opens StreamLine two or three times a week, has stopped expecting to find anything new</div>
+    <div><b>Goal</b>Start watching something decent within a couple of minutes, without the choosing becoming the evening</div>
+    <div><b>Friction</b>Discovery costs more than the evening is worth, so they abandon the search — falling back to a title already seen, or leaving the app entirely</div>
+    <div><b>Strategy</b>Restore &amp; curate — restore brand authority and win back users through human-led curation over mass-market scale</div>
+  </div>
+</header>
+
+<section>
+  <h2>Today — the loop that ends in a re-watch, or in nothing at all</h2>
+  <div class="today">
+    <div class="t-step"><strong>Open</strong><span>No title in mind</span>
+      <span class="t-point">Home screen</span><span class="mood"><b>Hopeful</b> — maybe tonight</span></div>
+    <div class="t-step"><strong>Scroll</strong><span>More of the same</span>
+      <span class="t-point">Trending · Because you watched</span><span class="mood"><b>Flagging</b> — seen this, seen this</span></div>
+    <div class="t-step t-gap"><strong>Give up</strong><span>Effort exceeds payoff</span>
+      <span class="t-point">No touchpoint at all</span><span class="mood"><b>Resigned</b> — it isn't worth more time</span>
+      <span class="gaptag">Experience gap</span></div>
+    <div class="t-step t-split"><strong>Exit, two ways</strong><span>Re-watch one of four known titles <em>&mdash; or close the app with nothing played</em></span>
+      <span class="t-point">Continue Watching · or a second app</span><span class="mood"><b>Comfortable, or flat</b> — safe, not satisfied</span></div>
+    <div class="t-step"><strong>Expect less</strong><span>Next session gets less time</span>
+      <span class="t-point">Home screen, again</span><span class="mood"><b>Lowered</b> — gives it less time</span></div>
+  </div>
+  <p class="loopback">↻ Each cycle lowers the expectation the next one starts from. The second exit — leaving entirely — is how a casual browser becomes a wanderer: 1.1 sessions a week, $8.40 per head.<br>
+    The curve dips at <strong>Give up</strong>, and that stage is the only one with <strong>no touchpoint at all</strong>. At the exact moment the viewer needs the product most, nothing is there to meet them. That is the experience gap, and everything Spotlight does aims at it.</p>
+</section>
+
+<section>
+  <h2>With Spotlight — the loop that ends in a return</h2>
+  <div class="stages">
+
+    <article class="stage">
+      <div class="num">1</div>
+      <h3>Invitation</h3>
+      <div class="ab">Opens the app <span class="arrow">→</span> meets a handful of picks, not fifteen thousand titles.</div>
+      <div class="row"><b>Touchpoint</b><p>Home screen, first row.</p></div>
+      <div class="row"><b>User Action</b><p>Opens the app and meets tonight's short Spotlight selection, not the full catalogue.</p></div>
+      <div class="row"><b>Internal State</b><p>Wary but curious — low expectation, and looking costs almost nothing.</p></div>
+      <div class="row"><b>Pain Point Addressed</b><p>The twenty-minute scroll never begins; there is no infinite surface to face.</p></div>
+    </article>
+
+    <article class="stage">
+      <div class="num">2</div>
+      <h3>Reason</h3>
+      <div class="ab">Reads why each was picked <span class="arrow">→</span> judges in seconds instead of minutes.</div>
+      <div class="row"><b>Touchpoint</b><p>The rail card and its first-run introduction.</p></div>
+      <div class="row"><b>User Action</b><p>Reads a curator's short note on why each title is worth watching tonight.</p></div>
+      <div class="row"><b>Internal State</b><p>Trust forming — a person made this choice and said why.</p></div>
+      <div class="row"><b>Pain Point Addressed</b><p>The "Because you watched" loop, which returns near-duplicates and explains nothing.</p></div>
+    </article>
+
+    <article class="stage">
+      <div class="num">3</div>
+      <h3>Commitment</h3>
+      <div class="ab">Presses play on something new <span class="arrow">→</span> the evening starts instead of stalling.</div>
+      <div class="row"><b>Touchpoint</b><p>Title detail page, then the player.</p></div>
+      <div class="row"><b>User Action</b><p>Starts a title they had not heard of, within two minutes of opening the app.</p></div>
+      <div class="row"><b>Internal State</b><p>Relief — the evening started rather than stalled.</p></div>
+      <div class="row"><b>Pain Point Addressed</b><p>Effort exceeding payoff, and the fallback to the four comfort titles.</p></div>
+    </article>
+
+    <article class="stage">
+      <div class="num">4</div>
+      <h3>Return</h3>
+      <div class="ab">Follows a curator <span class="arrow">→</span> returns for the next pick, not the same show.</div>
+      <div class="row"><b>Touchpoint</b><p>Next week's rail, or the Spotlight digest email.</p></div>
+      <div class="row"><b>User Action</b><p>Comes back for the next selection, and follows a curator whose taste fits theirs.</p></div>
+      <div class="row"><b>Internal State</b><p>Expectation restored — looking is worth doing again.</p></div>
+      <div class="row"><b>Pain Point Addressed</b><p>The decay loop where each session begins with less hope and less time.</p></div>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <h2>Three competitive advantages over the manual workaround</h2>
+  <div class="adv">
+    <div class="a-card">
+      <span class="a-num">Advantage 1</span>
+      <h4>It matches the fallback on speed</h4>
+      <p>The comfort re-watch wins today because it is instant and never disappoints. A decided, explained pick in under two minutes removes the one advantage that habit has.</p>
+    </div>
+    <div class="a-card">
+      <span class="a-num">Advantage 2</span>
+      <h4>It scales what a friend cannot</h4>
+      <p>A trusted friend gives one recommendation when asked. Spotlight gives a reasoned pick every time the app opens, unprompted, without the user having to ask anyone.</p>
+    </div>
+    <div class="a-card">
+      <span class="a-num">Advantage 3</span>
+      <h4>It rebuilds switching cost</h4>
+      <p>Four known shows are available on any service — that is why this segment swaps. A StreamLine curator whose taste you follow exists only here, and the authority earned is the platform's, not the individual's.</p>
+    </div>
+  </div>
+  <p style="margin:16px 0 0;font-size:13px;line-height:1.55;color:var(--ink-2)">
+    <strong style="color:var(--ink)">The unhappy path.</strong> The four stages assume the rail lands, and it
+    will not always. A viewer can meet Spotlight, scroll past it, and reach the same give-up point as before —
+    the failure our bad signal is written to catch: high rail impressions with flat card opens. The experience
+    gap is therefore <em>moved</em>, not closed: it now sits after the rail rather than after the trending rows,
+    and it affects fewer people. Re-serving the same picks in an interruption would fix nothing, since those
+    picks were already declined once. The intercept worth considering is a different bet — one title, one tap,
+    no choice at all — recorded as <strong>A11 · Play Something</strong> in the roadmap and deliberately held
+    out of sprint 1, because the week-6 read decides whether prevention was enough.</p>
+
+  <p style="margin:12px 0 0;font-size:13px;line-height:1.55;color:var(--ink-2)">
+    <strong style="color:var(--ink)">A note on the breaking point.</strong> The usual move is to find the moment
+    where the cost of inaction outweighs the pain of switching. Here that moment never comes. The pain is real —
+    they want something new and do not find it — but giving up and re-watching clears it immediately and at no
+    cost, so it never accumulates. Each failed search resets to zero. Spotlight therefore cannot wait for the
+    current experience to become unbearable; it has to be faster than giving up, which is why Advantage 1 is
+    about matching the fallback on speed rather than solving a worse problem.</p>
+</section>
+
+<section>
+  <h2>How this delivers “Restore &amp; curate”</h2>
+  <table class="strat">
+    <tr>
+      <th>Restore brand authority</th>
+      <td>Stages 2 and 4. The curators are StreamLine's, and the habit of returning for their next pick rebuilds the platform — not just the individual — as the place you trust for what is worth watching.</td>
+    </tr>
+    <tr>
+      <th>Win back users</th>
+      <td>Stages 1 and 4. This persona has already churned from discovery while still paying: they open the app and no longer look. The map wins back the viewer who stopped looking, before the subscription follows them out. Cheaper than re-acquisition, and it addresses the 14-point churn gap at its source.</td>
+    </tr>
+    <tr>
+      <th>Human-led curation</th>
+      <td>Stages 2 and 4, and Advantage 2. A named person makes the choice and says why — the thing the recommendation layer cannot do at any volume.</td>
+    </tr>
+    <tr>
+      <th>Restoration</th>
+      <td>Stage 2. Curation makes the deep back catalogue usable again: restored and older titles the "Because you watched" layer never surfaces, because nothing in the viewing history points at them. This is what turns fifteen thousand titles from a carrying cost back into an asset.</td>
+    </tr>
+    <tr>
+      <th>Over mass-market scale</th>
+      <td>Stage 1. The selection is deliberately small and deliberately not personalised to death. Scale is what created the problem; the fix is subtraction.</td>
+    </tr>
+  </table>
+</section>
+
+<footer>Module 2 · Lab 2 · Step 3 — StreamLine Spotlight. Linked from <code>competitive-and-journey.md</code>.</footer>
+
+</div>
+</body>
+</html>

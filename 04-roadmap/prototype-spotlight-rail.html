@@ -1,0 +1,410 @@
+<title>Spotlight Curated Rail</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+  :root{
+    --ground:#0e1014; --surface:#171a21; --surface-2:#1f232c; --edge:#2a2f3a;
+    --ink:#eef0f4; --ink-2:#98a0ae; --ink-3:#6b7280;
+    --accent:#e8b44a; --accent-ink:#1a1408;
+    --data:#5fb0e8; --good:#5fc79a; --warn:#e88a5f;
+    --shadow:0 1px 0 rgba(255,255,255,.04), 0 8px 24px rgba(0,0,0,.4);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#f6f5f2; --surface:#fff; --surface-2:#edece8; --edge:#dedcd5;
+      --ink:#16181d; --ink-2:#5c6270; --ink-3:#878d99;
+      --accent:#b5821c; --accent-ink:#fffaf0;
+      --data:#1d6ca8; --good:#2e7d5b; --warn:#b3562a;
+      --shadow:0 1px 2px rgba(20,20,30,.06), 0 6px 18px rgba(20,20,30,.07);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#f6f5f2; --surface:#fff; --surface-2:#edece8; --edge:#dedcd5;
+    --ink:#16181d; --ink-2:#5c6270; --ink-3:#878d99;
+    --accent:#b5821c; --accent-ink:#fffaf0;
+    --data:#1d6ca8; --good:#2e7d5b; --warn:#b3562a;
+    --shadow:0 1px 2px rgba(20,20,30,.06), 0 6px 18px rgba(20,20,30,.07);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font:15px/1.5 Archivo,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .shell{max-width:1280px;margin:0 auto;padding-block:26px;padding-left:20px;padding-right:20px;
+    display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+  @media (max-width:980px){ .shell{grid-template-columns:minmax(0,1fr)} }
+
+  .brandbar{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+  .brand{font:600 19px/1 Archivo,sans-serif;letter-spacing:-.01em}
+  .brand b{color:var(--accent);font-weight:600}
+  .crumb{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+
+  .app{background:var(--surface);border:1px solid var(--edge);border-radius:14px;
+    overflow:hidden;box-shadow:var(--shadow);min-height:520px;display:flex;flex-direction:column}
+  .appbar{display:flex;align-items:center;gap:12px;padding:13px 18px;
+    border-bottom:1px solid var(--edge);background:var(--surface-2)}
+  .appbar .logo{font:600 15px/1 Archivo,sans-serif;letter-spacing:-.01em;color:var(--ink)}
+  .appbar .logo i{font-style:normal;color:var(--accent)}
+  .search{margin-left:auto;display:flex;gap:6px}
+  .search input{background:var(--ground);border:1px solid var(--edge);color:var(--ink);
+    border-radius:7px;padding:6px 10px;font:400 13px Archivo,sans-serif;width:180px}
+  .search input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .btn{font:500 13px Archivo,sans-serif;border-radius:7px;padding:6px 12px;cursor:pointer;
+    border:1px solid var(--edge);background:var(--ground);color:var(--ink)}
+  .btn:hover{border-color:var(--ink-3)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+
+  .screen{padding:20px 18px 26px;flex:1}
+
+  .railhead{display:flex;align-items:baseline;gap:10px;margin:0 0 4px}
+  .railhead h2{margin:0;font:600 16px Archivo,sans-serif;letter-spacing:-.01em}
+  .railhead .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .railhead .by{font:italic 400 14px "Instrument Serif",Georgia,serif;color:var(--ink-2)}
+
+  /* FR11/FR12 — first-run introduction */
+  /* FR13 — persistent attribution subline, always rendered */
+  .attrib{font:italic 400 14px/1.4 "Instrument Serif",Georgia,serif;color:var(--ink-2);
+    margin:0 0 12px;transition:color .5s ease}
+  .intro .attrib{color:var(--accent)}
+  .intro .attrib b{font-style:normal;font-weight:400;
+    border-bottom:1px solid currentColor;padding-bottom:1px}
+  @media (prefers-reduced-motion:no-preference){
+    .intro .card{animation:rise .42s cubic-bezier(.22,.8,.3,1) backwards}
+    .intro .card:nth-child(1){animation-delay:.05s} .intro .card:nth-child(2){animation-delay:.13s}
+    .intro .card:nth-child(3){animation-delay:.21s} .intro .card:nth-child(4){animation-delay:.29s}
+    .intro .card:nth-child(5){animation-delay:.37s} .intro .card:nth-child(6){animation-delay:.45s}
+    .intro .card:nth-child(7){animation-delay:.53s}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .intro .attrib{animation:glow .5s ease backwards}
+    @keyframes glow{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  }
+  .rowhead{margin:26px 0 10px;font:600 14px Archivo,sans-serif;color:var(--ink-2)}
+
+  .rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+  .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+  @media (max-width:760px){ .rail{grid-template-columns:repeat(3,minmax(0,1fr))} .row{grid-template-columns:repeat(3,minmax(0,1fr))} }
+  @media (max-width:440px){ .rail,.row{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+  .card{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:inherit;
+    font:inherit;display:flex;flex-direction:column;gap:7px}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:9px}
+  .poster{aspect-ratio:2/3;border-radius:8px;position:relative;overflow:hidden;
+    border:1px solid var(--edge);display:grid;place-items:center;padding:10px}
+  .poster span{font:italic 400 15px/1.15 "Instrument Serif",Georgia,serif;text-align:center;
+    color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+  .poster.broken{background:var(--surface-2)!important}
+  .poster.broken span{display:none}
+  .poster.broken::after{content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg,transparent 0 7px,rgba(128,128,128,.13) 7px 14px)}
+  .card:hover .poster{border-color:var(--accent)}
+  .cardtitle{font:500 13px/1.3 Archivo,sans-serif;color:var(--ink)}
+  .cardmeta{font:400 11.5px Archivo,sans-serif;color:var(--ink-3)}
+
+  .empty{border:1px dashed var(--edge);border-radius:10px;padding:16px;
+    font-size:13px;color:var(--ink-3)}
+
+  .detail{display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px}
+  @media (max-width:640px){ .detail{grid-template-columns:1fr} .detail .poster{max-width:200px} }
+  .detail h1{margin:0 0 4px;font:600 26px/1.15 Archivo,sans-serif;letter-spacing:-.02em;text-wrap:balance}
+  .detail .meta{font-size:12.5px;color:var(--ink-3);margin-bottom:14px}
+  .detail .syn{font:italic 400 19px/1.45 "Instrument Serif",Georgia,serif;color:var(--ink-2);
+    margin:0 0 20px;max-width:56ch}
+  .actions{display:flex;gap:9px;flex-wrap:wrap}
+
+  .playing{display:grid;place-items:center;text-align:center;padding:48px 10px;gap:16px}
+  .pulse{width:54px;height:54px;border-radius:50%;background:var(--accent);
+    display:grid;place-items:center;color:var(--accent-ink);font-size:21px}
+  @media (prefers-reduced-motion:no-preference){
+    .pulse{animation:pl 2.4s ease-in-out infinite}
+    @keyframes pl{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  }
+  .playing h1{margin:0;font:600 23px Archivo,sans-serif;letter-spacing:-.02em;text-wrap:balance}
+  .playing .from{font-size:13px;color:var(--ink-2)}
+
+  .console{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px}
+  .panel{background:var(--surface);border:1px solid var(--edge);border-radius:12px;padding:15px 15px 16px}
+  .panel h3{margin:0 0 3px;font:600 12px Archivo,sans-serif;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--ink-2)}
+  .panel .hint{margin:0 0 12px;font-size:11.5px;color:var(--ink-3);line-height:1.45}
+  .ctrl{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:8px 0;border-top:1px solid var(--edge)}
+  .ctrl:first-of-type{border-top:0;padding-top:2px}
+  .ctrl label{font-size:12.5px;color:var(--ink);flex:1}
+  .seg{display:flex;border:1px solid var(--edge);border-radius:7px;overflow:hidden;flex:none}
+  .seg button{border:0;background:var(--ground);color:var(--ink-2);cursor:pointer;
+    font:500 11.5px Archivo,sans-serif;padding:5px 9px}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+  .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+  .log{font:400 11.5px/1.5 "IBM Plex Mono",ui-monospace,monospace;
+    max-height:280px;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:9px}
+  .ev{border-left:2px solid var(--data);padding-left:9px}
+  .ev .nm{color:var(--data);font-weight:500}
+  .ev .kv{color:var(--ink-2);word-break:break-word}
+  .ev .kv b{font-weight:500;color:var(--ink)}
+  .ev .t{color:var(--good)} .ev .f{color:var(--ink-3)} .ev .u{color:var(--warn)}
+  .logempty{font:400 11.5px "IBM Plex Mono",monospace;color:var(--ink-3)}
+
+  .flag{margin-top:11px;border-top:1px solid var(--edge);padding-top:10px;
+    font-size:11.5px;line-height:1.5;color:var(--warn)}
+  footer{max-width:1280px;margin:0 auto;padding:22px 20px 0;font-size:11.5px;color:var(--ink-3)}
+</style>
+
+<div class="shell">
+  <div>
+    <div class="brandbar">
+      <span class="brand">Stream<b>Line</b> Spotlight</span>
+      <span class="crumb">High-fidelity prototype · Sprint 1 Must-haves only</span>
+    </div>
+
+    <div class="app">
+      <div class="appbar">
+        <span class="logo">Stream<i>Line</i></span>
+        <div class="search">
+          <input id="q" type="text" placeholder="Search titles" aria-label="Search titles">
+          <button class="btn" id="go">Search</button>
+        </div>
+      </div>
+      <div class="screen" id="view"></div>
+    </div>
+  </div>
+
+  <aside class="console">
+    <div class="panel">
+      <h3>Analytics events</h3>
+      <p class="hint">FR7 — every play records <code>played_from_rail</code> and <code>is_new_to_viewer</code>. Play from the rail, then from a row or via search, and compare.</p>
+      <div class="log" id="log"><span class="logempty">No events yet.</span></div>
+      <div class="flag" id="flag" hidden></div>
+    </div>
+
+    <div class="panel">
+      <h3>Prototype controls</h3>
+      <p class="hint">Not part of the build — switches for exercising the Smart Behaviors table. The first-run introduction (FR11) plays once per viewer; replay it below. Set your system to reduced motion and replay to see the FR12 fallback.</p>
+
+      <div class="ctrl">
+        <label for="src-full">Curation source</label>
+        <div class="seg" role="group" aria-label="Curation source">
+          <button id="src-full" data-src="full" aria-pressed="true">6 titles</button>
+          <button data-src="short" aria-pressed="false">3</button>
+          <button data-src="empty" aria-pressed="false">Empty</button>
+        </div>
+      </div>
+
+      <div class="ctrl">
+        <label for="wh-on">Watch-history integration</label>
+        <div class="seg" role="group" aria-label="Watch-history integration">
+          <button id="wh-on" data-wh="on" aria-pressed="true">On</button>
+          <button data-wh="off" aria-pressed="false">Off</button>
+        </div>
+      </div>
+
+      <div class="ctrl">
+        <label for="th-ok">Thumbnails</label>
+        <div class="seg" role="group" aria-label="Thumbnail availability">
+          <button id="th-ok" data-th="ok" aria-pressed="true">Load</button>
+          <button data-th="fail" aria-pressed="false">Fail</button>
+        </div>
+      </div>
+
+      <div class="ctrl">
+        <label for="intro-replay">First-run introduction</label>
+        <button class="btn" id="intro-replay" style="flex:none">Replay</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>Module 4 · Lab 2 — built to <code>prd-spotlight-rail.md</code>. No backend, no login, no external data; local state only.</footer>
+
+<script>
+(function () {
+  var CURATION = [
+    {id:'t1',title:'The Salt Road',year:1998,kind:'Film',run:'1h 52m',hue:28,
+     syn:'Two smugglers cross a desert border carrying something neither will name.'},
+    {id:'t2',title:'Marram',year:2016,kind:'Series',run:'4 episodes',hue:196,
+     syn:'A coastal town votes on whether to let the sea take the school.'},
+    {id:'t3',title:'Vertigo of the Small Hours',year:2004,kind:'Film',run:'2h 08m',hue:344,
+     syn:'A night-bus driver keeps meeting the same passenger, who never gets off.'},
+    {id:'t4',title:'Quarter Past the Kitchen',year:2021,kind:'Series',run:'6 episodes',hue:96,
+     syn:'Three sisters run a restaurant none of them wanted to inherit.'},
+    {id:'t5',title:'Cold Open',year:1987,kind:'Film',run:'1h 41m',hue:262,
+     syn:'A live broadcast goes wrong in the first ninety seconds, and keeps going.'},
+    {id:'t6',title:'The Unmown Field',year:2012,kind:'Film',run:'2h 22m',hue:44,
+     syn:'A farmer refuses to cut one acre of his land, for forty years.'}
+  ];
+  var TRENDING = [
+    {id:'x1',title:'Redline Protocol',year:2024,kind:'Film',run:'2h 11m',hue:8,syn:'A courier has ninety minutes to cross the city.'},
+    {id:'x2',title:'Redline Protocol II',year:2025,kind:'Film',run:'2h 19m',hue:12,syn:'The courier returns, with a longer route.'},
+    {id:'x3',title:'Glasshouse',year:2023,kind:'Series',run:'8 episodes',hue:168,syn:'A tech campus under a single unbroken roof.'},
+    {id:'x4',title:'Night Shift Anthem',year:2022,kind:'Film',run:'1h 48m',hue:288,syn:'Hospital cleaners form a choir.'},
+    {id:'x5',title:'The Long Weekend',year:2024,kind:'Series',run:'5 episodes',hue:210,syn:'Four days at a wedding nobody wants to attend.'}
+  ];
+  var BECAUSE = [
+    {id:'y1',title:'Redline Protocol III',year:2026,kind:'Film',run:'2h 24m',hue:14,syn:'A third route, a third city.'},
+    {id:'y2',title:'Redline: Origins',year:2021,kind:'Film',run:'1h 58m',hue:6,syn:'Before the first delivery.'},
+    {id:'y3',title:'Redline Protocol II',year:2025,kind:'Film',run:'2h 19m',hue:12,syn:'The courier returns, with a longer route.'},
+    {id:'y4',title:'Fast Freight',year:2020,kind:'Film',run:'1h 44m',hue:20,syn:'Trucks, and the people who drive them very fast.'},
+    {id:'y5',title:'Redline Protocol',year:2024,kind:'Film',run:'2h 11m',hue:8,syn:'A courier has ninety minutes to cross the city.'}
+  ];
+  var WATCHED = {x1:1,x2:1,y2:1,y5:1,t3:1};
+  var ALL = CURATION.concat(TRENDING, BECAUSE);
+
+  var s = {view:'home', title:null, origin:null, src:'full', wh:'on', th:'ok',
+           events:[], query:'', introSeen:false};
+
+  var view = document.getElementById('view');
+  var logEl = document.getElementById('log');
+  var flagEl = document.getElementById('flag');
+
+  function railTitles(){
+    if (s.src === 'empty') return [];
+    if (s.src === 'short') return CURATION.slice(0,3);
+    return CURATION;
+  }
+  // Smart behaviour: fewer than 5 eligible titles -> hide the rail rather than render it short.
+  function railVisible(){ return railTitles().length >= 5; }
+
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  function poster(t, big){
+    var cls = 'poster' + (s.th === 'fail' ? ' broken' : '');
+    var bg = 'background:linear-gradient(150deg,hsl(' + t.hue + ' 62% 32%),hsl(' + ((t.hue+38)%360) + ' 55% 17%))';
+    return '<div class="' + cls + '" style="' + bg + (big ? ';max-width:200px' : '') + '"><span>' + esc(t.title) + '</span></div>';
+  }
+
+  function card(t){
+    return '<button class="card" data-id="' + t.id + '">' + poster(t) +
+      '<span class="cardtitle">' + esc(t.title) + '</span>' +
+      '<span class="cardmeta">' + t.kind + ' · ' + t.year + '</span></button>';
+  }
+
+  function home(){
+    var h = '';
+    if (railVisible()){
+      // FR11 — the introduction plays on the first session where the rail actually renders,
+      // so a first visit on a hidden-rail day does not consume it.
+      var firstRun = !s.introSeen;
+      h += '<div class="' + (firstRun ? 'intro' : '') + '">' +
+           '<div class="railhead"><span class="dot"></span><h2>Spotlight</h2>' +
+           '<span class="by">picked this week</span></div>' +
+           '<p class="attrib">Chosen weekly by <b>our editors</b> &mdash; a handful of films and series, new every Thursday.</p>' +
+           '<div class="rail" data-origin="rail">' + railTitles().map(card).join('') + '</div></div>';
+      if (firstRun) s.introSeen = true;
+    } else {
+      h += '<div class="empty">Spotlight is not showing. The curation source returned ' +
+           railTitles().length + ' eligible titles; the rail needs at least 5. ' +
+           'No error is surfaced to the viewer &mdash; the home screen simply renders without it.</div>';
+    }
+    h += '<h3 class="rowhead">Trending now</h3><div class="row" data-origin="row">' + TRENDING.map(card).join('') + '</div>';
+    h += '<h3 class="rowhead">Because you watched Redline Protocol</h3><div class="row" data-origin="row">' + BECAUSE.map(card).join('') + '</div>';
+    return h;
+  }
+
+  function results(){
+    var q = s.query.toLowerCase();
+    var hits = ALL.filter(function(t){ return t.title.toLowerCase().indexOf(q) > -1; });
+    var seen = {}, uniq = [];
+    hits.forEach(function(t){ if(!seen[t.title]){ seen[t.title]=1; uniq.push(t); } });
+    var h = '<h3 class="rowhead">Results for &ldquo;' + esc(s.query) + '&rdquo;</h3>';
+    h += uniq.length
+      ? '<div class="row" data-origin="search">' + uniq.map(card).join('') + '</div>'
+      : '<div class="empty">No titles match that exactly. Search matches titles only.</div>';
+    h += '<div class="actions" style="margin-top:20px"><button class="btn" data-back="1">Back to home</button></div>';
+    return h;
+  }
+
+  function detail(){
+    var t = s.title;
+    return '<div class="detail">' + poster(t, true) + '<div>' +
+      '<h1>' + esc(t.title) + '</h1>' +
+      '<div class="meta">' + t.kind + ' &middot; ' + t.year + ' &middot; ' + t.run + '</div>' +
+      '<p class="syn">' + esc(t.syn) + '</p>' +
+      '<div class="actions"><button class="btn btn-primary" data-play="1">Play</button>' +
+      '<button class="btn" data-back="1">Back</button></div>' +
+      '</div></div>';
+  }
+
+  function playing(){
+    var t = s.title;
+    var from = s.origin === 'rail' ? 'Spotlight rail'
+             : s.origin === 'search' ? 'Search' : 'Home row';
+    return '<div class="playing"><div class="pulse">&#9654;</div>' +
+      '<h1>' + esc(t.title) + '</h1>' +
+      '<div class="from">Playback started &middot; entered from ' + from + '</div>' +
+      '<div class="actions"><button class="btn" data-home="1">Back to home</button></div></div>';
+  }
+
+  function renderLog(){
+    if (!s.events.length){ logEl.innerHTML = '<span class="logempty">No events yet.</span>'; return; }
+    logEl.innerHTML = s.events.map(function(e){
+      var nw = e.is_new === null
+        ? '<span class="u">unavailable</span>'
+        : (e.is_new ? '<span class="t">true</span>' : '<span class="f">false</span>');
+      return '<div class="ev"><div class="nm">play_started</div>' +
+        '<div class="kv">title_id: <b>' + e.id + '</b><br>' +
+        'played_from_rail: ' + (e.rail ? '<span class="t">true</span>' : '<span class="f">false</span>') + '<br>' +
+        'is_new_to_viewer: ' + nw + '</div></div>';
+    }).join('');
+  }
+
+  function renderFlag(){
+    if (s.wh === 'off'){
+      flagEl.hidden = false;
+      flagEl.innerHTML = 'FR7 cannot be satisfied. <code>is_new_to_viewer</code> needs watch history &mdash; ' +
+        'the integration demoted to Should. A Must-have depends on a Should-have.';
+    } else { flagEl.hidden = true; }
+  }
+
+  function render(){
+    view.innerHTML = s.view === 'home' ? home()
+      : s.view === 'search' ? results()
+      : s.view === 'detail' ? detail() : playing();
+    renderLog(); renderFlag();
+  }
+
+  document.addEventListener('click', function(ev){
+    var seg = ev.target.closest('.seg button');
+    if (seg){
+      ['src','wh','th'].forEach(function(k){
+        if (seg.dataset[k]){
+          s[k] = seg.dataset[k];
+          seg.parentNode.querySelectorAll('button').forEach(function(b){
+            b.setAttribute('aria-pressed', String(b === seg));
+          });
+        }
+      });
+      render(); return;
+    }
+    var c = ev.target.closest('.card');
+    if (c){
+      var grid = c.closest('[data-origin]');
+      s.origin = grid ? grid.dataset.origin : 'row';
+      s.title = ALL.filter(function(t){ return t.id === c.dataset.id; })[0];
+      s.view = 'detail'; render(); return;
+    }
+    if (ev.target.closest('[data-play]')){
+      s.events.push({
+        id: s.title.id,
+        rail: s.origin === 'rail',
+        is_new: s.wh === 'off' ? null : !WATCHED[s.title.id]
+      });
+      s.view = 'playing'; render(); return;
+    }
+    if (ev.target.closest('[data-back]')){ s.view = 'home'; render(); return; }
+    if (ev.target.closest('[data-home]')){ s.view = 'home'; render(); return; }
+    if (ev.target.id === 'go'){ doSearch(); return; }
+    if (ev.target.id === 'intro-replay'){ s.introSeen = false; s.view = 'home'; render(); }
+  });
+
+  function doSearch(){
+    var q = document.getElementById('q').value.trim();
+    if (!q) return;
+    s.query = q; s.view = 'search'; render();
+  }
+  document.getElementById('q').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') doSearch();
+  });
+
+  render();
+})();
+</script>

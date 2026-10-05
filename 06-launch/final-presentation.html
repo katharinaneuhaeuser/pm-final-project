@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StreamLine Spotlight — Final Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#07162C; --fg:#ffffff; --muted:rgba(255,255,255,.72); --faint:rgba(255,255,255,.52);
+    --orange:#fb923c; --eyebrow:#fdba74; --cyan:#22d3ee; --teal:#34d399;
+    --blue:#60a5fa; --violet:#a78bfa; --pink:#f472b6;
+    --line:rgba(251,146,60,.25); --line-soft:rgba(255,255,255,.12);
+    --card:rgba(255,255,255,.035);
+    --sans:"Saans","Instrument Sans",-apple-system,"Segoe UI",system-ui,sans-serif;
+    --mono:"Antarctican Mono","Martian Mono",ui-monospace,"Cascadia Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth;height:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);
+    font-size:clamp(13px,1.05vw,16px);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+  /* progress + dots */
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--orange),var(--pink));transition:width .15s linear}
+  #dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;
+    display:flex;flex-direction:column;gap:11px}
+  #dots a{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.22);
+    display:block;transition:all .2s;border:1px solid transparent}
+  #dots a:hover{background:rgba(255,255,255,.5)}
+  #dots a.on{background:var(--orange);transform:scale(1.35)}
+  #dots a:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+  @media (max-width:860px){ #dots{display:none} }
+
+  section{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;
+    justify-content:center;padding:clamp(26px,4.2vh,56px) clamp(22px,5vw,80px);
+    position:relative;overflow:hidden}
+  .wrap{width:100%;max-width:1360px;margin:0 auto}
+
+  .eyebrow{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.12em;color:var(--eyebrow);margin:0 0 14px;font-weight:500}
+  h1{font-family:var(--sans);font-weight:800;letter-spacing:-.025em;line-height:1.02;
+    margin:0 0 16px;font-size:clamp(34px,5.6vw,76px);text-wrap:balance}
+  h2{font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:0 0 6px;
+    font-size:clamp(25px,3.1vw,44px);text-wrap:balance}
+  h3{font-weight:600;letter-spacing:-.01em;margin:0 0 7px;font-size:clamp(14px,1.25vw,18px)}
+  p{margin:0 0 11px;color:var(--muted)}
+  strong{color:var(--fg);font-weight:600}
+  a{color:var(--orange)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;
+    padding:clamp(15px,1.5vw,22px)}
+  .card.soft{border-color:var(--line-soft)}
+  .hero{background:linear-gradient(145deg,rgba(251,146,60,.14),rgba(167,139,250,.07) 55%,transparent);
+    box-shadow:0 18px 46px rgba(0,0,0,.34)}
+  .glow{background:linear-gradient(140deg,rgba(34,211,238,.12),rgba(96,165,250,.05) 60%,transparent)}
+
+  .grid{display:grid;gap:clamp(11px,1.1vw,17px)}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g-5-7{grid-template-columns:5fr 7fr}
+  .g-7-5{grid-template-columns:7fr 5fr}
+
+  .lbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;
+    color:var(--faint);display:block;margin-bottom:5px;font-weight:500}
+  .num{font-family:var(--mono);font-weight:500;letter-spacing:-.01em}
+  .big{font-family:var(--mono);font-size:clamp(21px,2.5vw,34px);font-weight:500;
+    letter-spacing:-.02em;line-height:1;display:block;margin-bottom:5px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.07em;text-transform:uppercase;padding:5px 11px;border-radius:999px;
+    border:1px solid var(--line);color:var(--eyebrow);background:rgba(251,146,60,.08);
+    white-space:nowrap;font-weight:500}
+  .pill.cy{color:var(--cyan);border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.08)}
+  .pill.te{color:var(--teal);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.08)}
+  .pill.bl{color:var(--blue);border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.08)}
+  .pill.vi{color:var(--violet);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.08)}
+  .pill.pk{color:var(--pink);border-color:rgba(244,114,182,.3);background:rgba(244,114,182,.08)}
+  .pills{display:flex;flex-wrap:wrap;gap:7px}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;background:var(--orange);color:#1a0d02;
+    font-weight:700;font-size:13px;padding:11px 19px;border-radius:11px;text-decoration:none;
+    border:1px solid var(--orange);transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(251,146,60,.3)}
+  .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .btn.ghost{background:transparent;color:var(--orange);font-weight:600}
+
+  .quote{border-left:2px solid var(--orange);padding:3px 0 3px 17px;margin:0;
+    font-size:clamp(15px,1.6vw,23px);line-height:1.38;font-weight:500;color:var(--fg);
+    letter-spacing:-.012em;text-wrap:balance}
+  .cite{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.06em;
+    text-transform:uppercase;margin-top:9px;display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:clamp(11px,.92vw,13.5px)}
+  th{text-align:left;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.1em;color:var(--faint);font-weight:500;padding:0 10px 7px 0;
+    border-bottom:1px solid var(--line-soft)}
+  td{padding:8px 10px 8px 0;border-bottom:1px solid rgba(255,255,255,.06);
+    color:var(--muted);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.k{color:var(--fg);font-weight:500}
+  .tnum{font-family:var(--mono);font-weight:500;color:var(--fg)}
+
+  ul{margin:0;padding-left:17px;color:var(--muted)}
+  li{margin-bottom:5px}
+  li::marker{color:var(--orange)}
+
+  .flow{display:flex;align-items:stretch;gap:7px;flex-wrap:wrap}
+  .step{flex:1 1 0;min-width:95px;border:1px solid var(--line-soft);border-radius:11px;
+    padding:10px 11px;background:rgba(255,255,255,.025)}
+  .step .n{font-family:var(--mono);font-size:9.5px;color:var(--eyebrow);letter-spacing:.1em;
+    display:block;margin-bottom:4px}
+  .step b{display:block;font-size:12.5px;font-weight:600;margin-bottom:2px}
+  .step span{font-size:11px;color:var(--faint);line-height:1.35;display:block}
+  .step.bad{border-color:rgba(244,114,182,.3);background:rgba(244,114,182,.06)}
+  .step.bad .n{color:var(--pink)}
+  .step.good{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)}
+  .step.good .n{color:var(--teal)}
+  .step.misery{border-color:var(--orange);background:rgba(251,146,60,.14);
+    box-shadow:0 8px 24px rgba(251,146,60,.16)}
+  .step.misery .n{color:var(--orange)}
+
+  .lane{border:1px solid var(--line-soft);border-radius:13px;padding:13px 13px 14px;
+    display:flex;flex-direction:column;gap:8px}
+  .lane>.h{display:flex;align-items:baseline;justify-content:space-between;
+    padding-bottom:8px;border-bottom:2px solid currentColor;margin-bottom:2px}
+  .lane>.h b{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase}
+  .lane>.h i{font-style:normal;font-size:10px;color:var(--faint);letter-spacing:0}
+  .lane.now{color:var(--teal)} .lane.next{color:var(--blue)}
+  .lane.later{color:var(--violet)} .lane.cut{color:var(--pink)}
+  .item{border:1px solid var(--line-soft);border-radius:9px;padding:8px 10px;color:var(--fg)}
+  .item b{font-size:12.5px;font-weight:600;display:block}
+  .item span{font-size:10.5px;color:var(--faint);display:block;margin-top:2px;line-height:1.35}
+  .item .ve{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.06em}
+
+  .callout{border:1px solid var(--line);border-radius:13px;padding:14px 16px;
+    background:linear-gradient(135deg,rgba(251,146,60,.12),transparent 70%)}
+  .callout.warn{border-color:rgba(244,114,182,.35);
+    background:linear-gradient(135deg,rgba(244,114,182,.12),transparent 70%)}
+  .callout.ok{border-color:rgba(52,211,153,.35);
+    background:linear-gradient(135deg,rgba(52,211,153,.12),transparent 70%)}
+
+  .rule{display:flex;gap:9px;align-items:flex-start;padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,.07)}
+  .rule:last-child{border-bottom:none}
+  .rule .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;padding:3px 8px;
+    border-radius:6px;flex:none;font-weight:500}
+  .rule.ship .tag{color:var(--teal);background:rgba(52,211,153,.14)}
+  .rule.iter .tag{color:var(--blue);background:rgba(96,165,250,.14)}
+  .rule.kill .tag{color:var(--pink);background:rgba(244,114,182,.14)}
+  .rule p{margin:0;font-size:12px}
+
+  .meta{display:flex;gap:clamp(14px,2.4vw,40px);flex-wrap:wrap;margin-top:clamp(18px,2.6vh,34px)}
+  .meta div{min-width:120px}
+  .foot{position:absolute;bottom:clamp(14px,2vh,24px);left:clamp(22px,5vw,80px);
+    right:clamp(22px,5vw,80px);display:flex;justify-content:space-between;
+    font-family:var(--mono);font-size:9.5px;color:rgba(255,255,255,.3);letter-spacing:.09em;
+    text-transform:uppercase;pointer-events:none}
+
+  .draft{border:1px dashed rgba(251,146,60,.45);border-radius:9px;padding:8px 12px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--eyebrow);
+    text-transform:uppercase;display:inline-block;margin-bottom:12px}
+
+  @media (max-width:980px){
+    .g2,.g3,.g4,.g-5-7,.g-7-5{grid-template-columns:1fr}
+    section{justify-content:flex-start;padding-top:60px}
+  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .btn{transition:none} }
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<nav id="dots" aria-label="Slide navigation"></nav>
+
+<!-- 1 · COVER -->
+<section id="s1" data-name="Cover">
+  <div class="wrap">
+    <p class="eyebrow">Product Management Certification · Final Project</p>
+    <h1>StreamLine Spotlight<br><span style="color:var(--orange)">A human-curated discovery rail</span></h1>
+    <p style="font-size:clamp(14px,1.45vw,21px);max-width:62ch;color:var(--muted);line-height:1.45">
+      Replace the infinite scroll with a handful of titles chosen by people — so the 37% of subscribers
+      who open with no title in mind start something they haven't seen, instead of re-watching a known
+      title or closing the app with nothing played.
+    </p>
+    <div class="meta">
+      <div><span class="lbl">Author</span><span class="num" style="font-size:13px">Katharina Neuhäuser</span></div>
+      <div><span class="lbl">Cohort</span><span class="num" style="font-size:13px">Product Management · 2026</span></div>
+      <div><span class="lbl">Scenario</span><span class="num" style="font-size:13px">StreamLine · B2C · Risk: Value</span></div>
+    </div>
+    <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:clamp(18px,2.6vh,30px)">
+      <a class="btn" href="https://claude.ai/artifact/2GmsgAN6hgAKsFa1Q5qhxP" target="_blank" rel="noopener">View the prototype →</a>
+      <a class="btn ghost" href="https://github.com/katharinaneuhaeuser/pm-final-project" target="_blank" rel="noopener">Project repo</a>
+    </div>
+  </div>
+  <div class="foot"><span>StreamLine Spotlight</span><span>Scroll or press ↓</span></div>
+</section>
+
+<!-- 2 · STRATEGY -->
+<section id="s2" data-name="Strategy">
+  <div class="wrap">
+    <p class="eyebrow">Slide 5 · Strategy — Modules 1 &amp; 3</p>
+    <h2>The library became a tax on the people paying for it</h2>
+    <div class="grid g-7-5" style="margin-top:clamp(14px,2vh,24px)">
+      <div class="card hero">
+        <span class="lbl">Problem hook</span>
+        <blockquote class="quote">We're spending blockbuster money on a library only our most committed
+          viewers can use, while the 37% of subscribers who open with no title in mind pay for it in
+          scrolling and leave having watched nothing — our largest pool of revenue, and the one most
+          likely to go.</blockquote>
+        <span class="cite">Strategic crisis · 12-month view</span>
+        <p style="margin-top:13px;font-size:12.5px">Power users stay; at 58% curated consumption they
+          already find what they want. Wanderers leave. The risk is the 37% in between — regular viewers
+          who drift toward wanderer behaviour every month we make choosing harder. The specialists aren't
+          beating us by buying more; they're beating us by removing the burden we keep adding.</p>
+      </div>
+      <div class="grid" style="gap:clamp(11px,1.1vw,17px)">
+        <div class="card">
+          <span class="lbl">Value proposition</span>
+          <p style="font-size:12.5px;margin-bottom:8px"><strong>For casual browsers</strong> — 37% of the
+            base, $11.40 LTV, 2.3 sessions a week — <strong>we will launch Spotlight</strong>: a small,
+            human-programmed selection of films and series replacing the infinite scroll, curated for
+            accessibility rather than connoisseurship.</p>
+          <p style="font-size:12.5px;margin:0">We're not adding more content. We're adding a point of view.</p>
+        </div>
+        <div class="grid g3" style="gap:9px">
+          <div class="card soft"><span class="big" style="color:var(--orange)">37%</span><span class="lbl">of the base</span></div>
+          <div class="card soft"><span class="big" style="color:var(--cyan)">−14<small style="font-size:.5em">pts</small></span><span class="lbl">churn if exposed</span></div>
+          <div class="card soft"><span class="big" style="color:var(--teal)">$7.1k</span><span class="lbl">/yr per 1,000 subs</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:clamp(11px,1.5vh,18px)">
+      <span class="lbl">The data-backed hypothesis</span>
+      <p style="margin:0;font-size:clamp(12px,1.12vw,15.5px);color:var(--fg);line-height:1.45">
+        Based on casual browsers taking 44% of consumption from trending rows and only 31% from curated,
+        at 2.3 sessions a week against 4.8 for power users, <strong>I believe that closing the
+        effort-versus-payoff gap in discovery</strong> will result in those viewers starting titles they
+        haven't seen rather than cycling known ones or leaving with nothing played — measured by a
+        <strong class="num">+2 pt lift in new-title play rate</strong> across all sessions opened, so
+        abandonment counts as a failure. Protecting <strong>total weekly plays per subscriber</strong>.
+        Decided at <strong>six weeks</strong>, with a 90-day churn read before scaling.
+      </p>
+    </div>
+  </div>
+  <div class="foot"><span>Strategy</span><span>02 / 08</span></div>
+</section>
+
+<!-- 3 · RESEARCH -->
+<section id="s3" data-name="Research">
+  <div class="wrap">
+    <p class="eyebrow">Slide 6 · Research — Module 2</p>
+    <h2>We're not competing with inconvenience. We're competing with comfort.</h2>
+    <div class="grid g-5-7" style="margin-top:clamp(13px,1.9vh,22px)">
+      <div class="card glow">
+        <span class="lbl">The workaround — and why it's unusual</span>
+        <p style="font-size:12.5px">Their manual workaround is <strong>memory</strong>: a mental shortlist
+          of four titles they already know, used in place of the product's own discovery. Some leave for a
+          second screen instead.</p>
+        <p style="font-size:12.5px;margin-bottom:0">What makes this different from the textbook version is
+          that the workaround <strong>costs them nothing</strong>. Re-watching is instant and never
+          disappoints, so nobody is forced into it — they chose it, and they're content. That makes the
+          status quo far harder to displace than a clumsy spreadsheet would be.</p>
+      </div>
+      <div class="grid" style="gap:clamp(10px,1vw,15px)">
+        <div class="card">
+          <span class="lbl">Persona · The Resigned Browser</span>
+          <p style="font-size:12.5px;margin-bottom:9px">A regular subscriber who opens StreamLine two or
+            three times a week and has quietly stopped expecting to find anything new.</p>
+          <div class="pills">
+            <span class="pill">37% of base</span><span class="pill cy">2.3 sessions / wk</span>
+            <span class="pill te">$11.40 LTV</span><span class="pill vi">44% trending</span>
+          </div>
+        </div>
+        <div class="card soft">
+          <span class="lbl">Evidence</span>
+          <blockquote class="quote" style="font-size:14px;font-weight:400">Honestly I just re-watch the
+            same four comfort shows. Discovering anything new feels like a chore, so I don't.</blockquote>
+          <span class="cite">UXR-03 · casual viewer, 27</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:clamp(13px,1.9vh,22px)">
+      <span class="lbl">Journey — today, the loop that ends in a re-watch or in nothing at all</span>
+      <div class="flow">
+        <div class="step"><span class="n">01</span><b>Open</b><span>No title in mind</span></div>
+        <div class="step"><span class="n">02</span><b>Scroll</b><span>More of the same</span></div>
+        <div class="step misery"><span class="n">03 · Moment of misery</span><b>Give up</b><span>Effort exceeds payoff</span></div>
+        <div class="step bad"><span class="n">04a</span><b>Re-watch</b><span>One of four known titles</span></div>
+        <div class="step bad"><span class="n">04b</span><b>Leave</b><span>Nothing played</span></div>
+        <div class="step"><span class="n">05</span><b>Expect less</b><span>Next session gets less time</span></div>
+      </div>
+      <p style="font-size:11.5px;margin:9px 0 0;color:var(--faint)">A failed decision has
+        <strong style="color:var(--orange)">two exits, not one</strong>. Re-watching is the visible one;
+        closing the app with nothing played is the one that matters more, because it is the mechanism by
+        which a casual browser becomes a wanderer — 1.1 sessions a week, $8.40 per head.</p>
+    </div>
+
+    <div style="margin-top:clamp(11px,1.5vh,17px)">
+      <span class="lbl">Journey — with Spotlight, the loop that ends in a return</span>
+      <div class="flow">
+        <div class="step good"><span class="n">01</span><b>Invitation</b><span>A handful, not 15,000</span></div>
+        <div class="step good"><span class="n">02</span><b>Reason</b><span>Why this, tonight</span></div>
+        <div class="step good"><span class="n">03</span><b>Commitment</b><span>Play in under 2 minutes</span></div>
+        <div class="step good"><span class="n">04</span><b>Return</b><span>Follow a curator</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Research</span><span>03 / 08</span></div>
+</section>
+
+<!-- 4 · BLUEPRINT -->
+<section id="s4" data-name="Blueprint">
+  <div class="wrap">
+    <p class="eyebrow">Slide 7 · Blueprint — Module 4</p>
+    <h2>Two features in the sprint — one for each exit</h2>
+    <div class="grid g4" style="margin-top:clamp(13px,1.9vh,22px)">
+      <div class="lane now">
+        <div class="h"><b>Now</b><i>3-week sprint</i></div>
+        <div class="item"><b>A1 · Spotlight Curated Rail</b><span>The core mechanism. Manual curation, not bespoke tooling.</span><span class="ve">V5 · E2 · Quick Win</span></div>
+        <div class="item"><b>A6 · Spotlight Digest Email</b><span>The only feature that creates a session rather than improving one.</span><span class="ve">V4 · E2 · Quick Win</span></div>
+      </div>
+      <div class="lane next">
+        <div class="h"><b>Next</b><i>1–2 sprints</i></div>
+        <div class="item"><b>A2 · "Why You'll Love This"</b><span>AI-generated reasons, once the concept is proven.</span><span class="ve">V4 · E3</span></div>
+        <div class="item"><b>A7 · Curator Profiles</b><span>The switching-cost mechanism from the Return stage.</span><span class="ve">V4 · E3</span></div>
+      </div>
+      <div class="lane later">
+        <div class="h"><b>Later</b><i>backlog</i></div>
+        <div class="item"><b>A3 · Hidden Gem Badge</b><span>Cheap, surfaces the back catalogue — needs a rail to sit on.</span><span class="ve">V3 · E1</span></div>
+        <div class="item"><b>A9 · Advanced Filter Engine</b><span>Weak as a UI; the metadata beneath it is the real asset.</span><span class="ve">V4 · E3</span></div>
+      </div>
+      <div class="lane cut">
+        <div class="h"><b>Cut</b><i>the "no"</i></div>
+        <div class="item"><b>A5 · Personalized Queue</b><span>Rebuilds the loop Spotlight exists to break.</span><span class="ve">V2 · E4</span></div>
+        <div class="item"><b>A4 · Mood Entry</b> · <b>A8 · Watch Party</b> · <b>A10 · Offline</b><span>All sit downstream of the decision.</span></div>
+      </div>
+    </div>
+
+    <div class="grid g-7-5" style="margin-top:clamp(12px,1.7vh,20px)">
+      <div class="card">
+        <span class="lbl">PRD highlights · Must-haves for A1</span>
+        <div class="grid g2" style="gap:4px 18px">
+          <ul style="font-size:12px">
+            <li>Rail above the fold, capped at 5–7 titles</li>
+            <li>Title and thumbnail on every card</li>
+            <li>Curation from a CMS entry or spreadsheet</li>
+          </ul>
+          <ul style="font-size:12px">
+            <li>Card → existing title detail page</li>
+            <li><span class="num">played_from_rail</span> on every play event</li>
+            <li>First-run onboarding animation, non-blocking</li>
+          </ul>
+        </div>
+        <p style="font-size:11.5px;margin:10px 0 0;color:var(--faint)"><strong>Where the prototype broke the
+          PRD:</strong> a Must-have depended on a Should-have. FR7 required <span class="num">is_new_to_viewer</span>
+          on every play — which needs the watch-history integration demoted to Should. Fixed by writing it as
+          <span class="num">unavailable</span> rather than inferring it; a defaulted value would have inflated
+          the primary metric.</p>
+      </div>
+      <div class="card hero" style="display:flex;flex-direction:column;justify-content:center">
+        <span class="lbl">Clickable prototype</span>
+        <p style="font-size:12.5px">Three screens, live analytics attribution, and switches that exercise the
+          Smart Behaviours table — hide the rail below 5 eligible titles, fail the thumbnails, replay the
+          first-run animation.</p>
+        <a class="btn" href="https://claude.ai/artifact/2GmsgAN6hgAKsFa1Q5qhxP" target="_blank" rel="noopener">View prototype →</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Blueprint</span><span>04 / 08</span></div>
+</section>
+
+<!-- 5 · VALIDATION -->
+<section id="s5" data-name="Validation">
+  <div class="wrap">
+    <p class="eyebrow">Slide 8 · Validation — Module 5</p>
+    <h2>Do casual browsers use a curated surface, or have they stopped looking?</h2>
+    <p style="max-width:84ch;font-size:13px">Every document from Module 1 onward assumes the first. Nothing
+      yet proves it. This is a 6-week, 50/50 user-randomised test designed to answer it before any further
+      investment.</p>
+    <div class="grid g-5-7" style="margin-top:clamp(12px,1.7vh,20px)">
+      <div class="grid" style="gap:clamp(10px,1vw,15px)">
+        <div class="card">
+          <span class="lbl">Control (A)</span>
+          <p style="font-size:12px;margin:0">The home screen as it stands. Trending rows first;
+            "Because you watched" returning near-duplicate franchise titles; no curated surface anywhere.</p>
+        </div>
+        <div class="card glow">
+          <span class="lbl">Variant (B) — exactly one change</span>
+          <p style="font-size:12px;margin:0">Identical, with the Spotlight rail inserted as the first row.
+            5–7 titles, hiding entirely below 5 eligible rather than rendering short. First-run onboarding
+            animation. <strong>No curator notes in either arm</strong> — this tests hand-picking alone.</p>
+        </div>
+        <div class="card soft">
+          <span class="lbl">Stated limitation</span>
+          <p style="font-size:11.5px;margin:0">One feature, three mechanisms: curation, prime placement, and
+            declared authorship. A positive result can't separate them. Doing so needs a four-arm design this
+            sprint can't fund — said here rather than discovered by a reviewer.</p>
+        </div>
+      </div>
+      <div class="grid" style="gap:clamp(10px,1vw,15px)">
+        <div class="card">
+          <table>
+            <tr><th>Parameter</th><th>Decision</th></tr>
+            <tr><td class="k">Primary metric</td><td>New-title play rate — share of <strong>all sessions opened</strong> ending in a play new to that viewer</td></tr>
+            <tr><td class="k">Baseline</td><td><span class="tnum">18%</span> — assumed, not measured. Confirmed in weeks 1–2</td></tr>
+            <tr><td class="k">MDE</td><td><span class="tnum">+2 pts</span> (18% → 20%). Set by cost: below this the rail doesn't pay for its curators</td></tr>
+            <tr><td class="k">Sample / arm</td><td><span class="tnum">6,039</span> users · 50/50 · 6 weeks · p &lt; 0.05 two-sided</td></tr>
+            <tr><td class="k">Guardrail</td><td>Total weekly plays per subscriber — not more than <span class="tnum">5%</span> below control</td></tr>
+            <tr><td class="k">2nd guardrail</td><td>Early-abandon rate, all plays — ceiling <span class="tnum">+5 pts</span> vs control</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <span class="lbl">Shipping criteria — committed before launch</span>
+          <div class="rule ship"><span class="tag">SHIP</span><p>≥ +2 pts at p &lt; 0.05, <strong>and</strong> both guardrails intact.</p></div>
+          <div class="rule iter"><span class="tag">ITERATE</span><p>Significant but below 2 pts. First iteration is the curator's note — the Should-have this test excluded.</p></div>
+          <div class="rule kill"><span class="tag">KILL</span><p>Not significant, negative, or a guardrail breaks. A positive non-significant result is noise, not a weak signal.</p></div>
+          <p style="font-size:11px;margin:9px 0 0;color:var(--faint)">Read date fixed at week 6. One
+            pre-registered week-2 look, control arm only, to confirm the baseline. No efficacy read, no stopping.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Validation</span><span>05 / 08</span></div>
+</section>
+
+<!-- 6 · LAUNCH -->
+<section id="s6" data-name="Launch">
+  <div class="wrap">
+    <p class="eyebrow">Slide 9 · Launch — Module 6</p>
+    <h2>Released in Phase 1. Launched in Phase 2. Six weeks apart, deliberately.</h2>
+    <div class="grid g4" style="margin-top:clamp(12px,1.7vh,20px)">
+      <div class="card"><span class="lbl">Goal</span><p style="margin:0;font-size:12.5px"><strong>Engagement</strong> — not awareness. There's no awareness problem and no conversion event; the gap is between opening the app and using what's in it.</p></div>
+      <div class="card"><span class="lbl">Audience</span><p style="margin:0;font-size:12.5px"><strong>Casual browsers</strong>, 37% of base. Secondary: Wanderers, read separately for their larger churn response (−22 pts).</p></div>
+      <div class="card"><span class="lbl">Tier</span><p style="margin:0;font-size:12.5px"><strong>M · Targeted.</strong> S fails on one count only: an in-app launch can't reach the viewer who stopped opening the app.</p></div>
+      <div class="card"><span class="lbl">Channels</span><div class="pills" style="margin-top:3px"><span class="pill te">Owned · Digest email</span><span class="pill bl">Owned · App store</span><span class="pill vi">Earned · Curator editorial</span><span class="pill pk">No paid — deliberately</span></div></div>
+    </div>
+
+    <div class="grid g-7-5" style="margin-top:clamp(11px,1.5vh,18px)">
+      <div class="card">
+        <span class="lbl">Success dashboard — by signal level</span>
+        <table>
+          <tr><th>Level</th><th>KPI</th><th>Baseline</th><th>Target</th></tr>
+          <tr><td class="k" style="color:var(--cyan)">Feature</td><td>Rail engagement rate — sessions opening a card</td><td class="tnum">0%</td><td class="tnum">≥15%</td></tr>
+          <tr><td class="k" style="color:var(--cyan)">Feature</td><td>Time to first play from the rail</td><td>—</td><td class="tnum">&lt;120s</td></tr>
+          <tr><td class="k" style="color:var(--blue)">Product</td><td>New-title play rate</td><td class="tnum">18%</td><td class="tnum">20%</td></tr>
+          <tr><td class="k" style="color:var(--blue)">Product</td><td>Casual-browser sessions per week</td><td class="tnum">2.3</td><td class="tnum">2.8</td></tr>
+          <tr><td class="k" style="color:var(--teal)">Business</td><td>90-day churn, exposed vs control</td><td>Control</td><td class="tnum">−14 pts</td></tr>
+        </table>
+      </div>
+      <div class="grid" style="gap:clamp(10px,1vw,15px)">
+        <div class="callout warn">
+          <span class="lbl">Bad signal to watch for</span>
+          <p style="margin:0;font-size:12.5px;color:var(--fg)">High rail impressions with <strong>flat card
+            opens</strong>. The rail is being scrolled past — it reads as another promotional row rather than
+            something a person chose. The fix is attribution and copy, <strong>not more titles</strong>.</p>
+        </div>
+        <div class="callout">
+          <span class="lbl">This plan is conditional</span>
+          <p style="margin:0;font-size:12px;color:var(--fg)">The experiment is designed, not run. If it kills
+            the feature there is <strong>no launch</strong> — the curation pipeline stops and the finding is
+            the deliverable instead. A launch plan that can't be cancelled by its own evidence is a commitment
+            with a schedule attached.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Launch</span><span>06 / 08</span></div>
+</section>
+
+<!-- 7 · STORY -->
+<section id="s7" data-name="Story">
+  <div class="wrap">
+    <p class="eyebrow">Slide 10 · Story — Individual insights</p>
+    <span class="draft">Drafted from the project record — confirm before submitting</span>
+    <h2>The thing I got wrong was who this was for</h2>
+    <div class="grid g3" style="margin-top:clamp(12px,1.7vh,20px)">
+      <div class="card">
+        <span class="lbl">Friction · the pivot</span>
+        <p style="font-size:12.5px;margin:0">I started where the brief points — high-intent cinephiles, the
+          viewers "who value quality over volume." Then the segment data said their churn response to
+          Spotlight was <strong>N/A, low churn anyway</strong>. You cannot win back a segment that isn't
+          leaving. Rewriting Module 1 in Module 4 was uncomfortable and correct.</p>
+      </div>
+      <div class="card hero">
+        <span class="lbl">Aha · two exits, not one</span>
+        <p style="font-size:12.5px;margin:0">I had written the misery as though giving up always ends in a
+          re-watch. It doesn't — people close the app with nothing played, and <strong>that</strong> is how a
+          casual browser becomes a wanderer. It broke the metric, not just the wording: an abandoned session
+          was falling out of the denominator, so the failure the metric existed to detect was invisible to it.</p>
+      </div>
+      <div class="card">
+        <span class="lbl">Aha · the prototype audits the PRD</span>
+        <p style="font-size:12.5px;margin:0">Building it exposed a <strong>Must-have that depended on a
+          Should-have</strong>. The Must list couldn't be satisfied by the Must list. No amount of re-reading
+          the document would have found that; only trying to build it did.</p>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:clamp(11px,1.5vh,18px)">
+      <div class="card glow">
+        <span class="lbl">Biggest takeaway</span>
+        <p style="font-size:13px;margin:0">The status quo isn't inconvenience, it's <strong>contentment</strong>.
+          A workaround that costs the user nothing is far harder to displace than a clumsy one — and most
+          frameworks assume the opposite. That reframed the whole competitive case: we're not beating a messy
+          process, we're beating a comfortable habit.</p>
+      </div>
+      <div class="card">
+        <span class="lbl">What I'd do next</span>
+        <ul style="font-size:12.5px;margin:0">
+          <li><strong>Baseline the metric before anything else.</strong> 18% is assumed; every downstream number depends on it.</li>
+          <li><strong>Instrument card opens, not impressions.</strong> Without it the named bad signal is undetectable.</li>
+          <li><strong>Test avoidance versus appetite.</strong> "Discovering feels like a chore, so I don't" is opting out, not asking to be guided — and the whole initiative rests on which one it is.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Story</span><span>07 / 08</span></div>
+</section>
+
+<!-- 8 · SUBMIT -->
+<section id="s8" data-name="Submit">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow" style="justify-content:center">Thank you</p>
+    <h1 style="font-size:clamp(30px,4.6vw,62px)">One product, six modules,<br>one decision rule.</h1>
+    <p style="max-width:56ch;margin:0 auto 26px;font-size:clamp(13px,1.3vw,18px)">
+      Spotlight ships if it earns +2 points, and doesn't if it doesn't. Everything above exists to make
+      that sentence defensible.
+    </p>
+    <div style="display:flex;gap:11px;flex-wrap:wrap;justify-content:center">
+      <a class="btn" href="https://github.com/katharinaneuhaeuser/pm-final-project" target="_blank" rel="noopener">github.com/katharinaneuhaeuser/pm-final-project</a>
+      <a class="btn ghost" href="https://claude.ai/artifact/2GmsgAN6hgAKsFa1Q5qhxP" target="_blank" rel="noopener">Prototype</a>
+    </div>
+    <div class="pills" style="justify-content:center;margin-top:22px">
+      <span class="pill">Katharina Neuhäuser</span>
+      <span class="pill cy">Product Management Certification · 2026</span>
+      <span class="pill te">Submit to the learning platform</span>
+    </div>
+  </div>
+  <div class="foot"><span>Submit</span><span>08 / 08</span></div>
+</section>
+
+<script>
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
+  var dots = document.getElementById('dots');
+  var bar  = document.getElementById('bar');
+
+  secs.forEach(function(s,i){
+    var a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.setAttribute('aria-label', 'Go to ' + (s.dataset.name || ('slide ' + (i+1))));
+    a.title = s.dataset.name || '';
+    dots.appendChild(a);
+  });
+  var links = Array.prototype.slice.call(dots.children);
+
+  function current(){
+    var best = 0, min = Infinity;
+    secs.forEach(function(s,i){
+      var d = Math.abs(s.getBoundingClientRect().top);
+      if (d < min){ min = d; best = i; }
+    });
+    return best;
+  }
+  function paint(){
+    var i = current();
+    links.forEach(function(a,j){ a.classList.toggle('on', j === i); });
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  }
+  function go(i){
+    i = Math.max(0, Math.min(secs.length - 1, i));
+    secs[i].scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  window.addEventListener('scroll', paint, {passive:true});
+  window.addEventListener('resize', paint);
+  paint();
+
+  document.addEventListener('keydown', function(e){
+    var k = e.key;
+    if (k === 'ArrowDown' || k === 'PageDown' || k === ' '){ e.preventDefault(); go(current()+1); }
+    else if (k === 'ArrowUp' || k === 'PageUp'){ e.preventDefault(); go(current()-1); }
+    else if (k === 'Home'){ e.preventDefault(); go(0); }
+    else if (k === 'End'){ e.preventDefault(); go(secs.length-1); }
+    else if (k === 'Escape'){ e.preventDefault(); go(0); }
+  });
+})();
+</script>
+</body>
+</html>
