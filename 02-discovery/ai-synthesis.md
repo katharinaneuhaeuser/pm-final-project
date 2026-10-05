@@ -7,7 +7,7 @@
 
 Read the raw research first, unaided — 12 UXR notes and 10 open bug reports — and write down the moments of misery by hand. Then give the same material to an AI with a tight brief: thematic synthesis only, no roadmap, no recommendations, low-priority defects aggregated into a single line. Then compare the two and find where the AI's version is weaker than it looks.
 
-The point is not whether the AI is any good. It is learning where it quietly loses things.
+The aim is to find out where the AI loses things.
 
 ## Step 1 · What I found reading the raw data myself
 
@@ -86,7 +86,7 @@ Autoplay is the clearest case. A user muted their television permanently to esca
 
 Not in the document. The constraint held exactly where I had placed it.
 
-It did not hold around the document. In the conversation either side of the output, the same assistant volunteered segment recommendations, metric designs and a persona pivot, none of which I had asked for. A constraint scoped to an artifact does not bind the surrounding conversation — worth knowing, because the artifact is the part you check.
+It did not hold around the document. In the conversation either side of the output, the same assistant offered segment recommendations, metric designs and a persona pivot, none of which I had asked for. Setting a rule for the document did not set it for the conversation about the document — worth knowing, because the document is the part you check.
 
 **Logic leak #1 — two sources, one voice.**
 
@@ -100,8 +100,8 @@ The output opens with "thematic synthesis of 12 user research sessions." There w
 
 ## What I took from it
 
-The failure mode was not invention. Nothing in the output is made up, and on the brief it was given, it is a good document.
+The AI did not make anything up. Nothing in the output is invented, and for the brief it was given, it is a good document.
 
-The failure mode is flattening — losing the difference between a tracked defect and a researcher's judgement, between a person annoyed and a person who gave up, between a note and a session. None of that shows up as an error. It shows up as a summary that reads slightly more confident and slightly more uniform than the evidence underneath it.
+What it does is flatten things out. A tracked defect and a researcher's judgement end up looking the same. So do a person who was annoyed and a person who gave up. So do a note and a session. None of this shows up as a mistake. It shows up as a summary that sounds more certain and more even than the evidence behind it.
 
-So the AI is reliable for the first pass and not for the severity call, and both the moment of misery and the persona had to come from reading the raw notes myself. This is where the habit of checking its claims against the source started; it carried through the rest of the project, and the wider version of it is in [`06-launch/individual-insights.md`](../06-launch/individual-insights.md).
+So I can use it for the first pass but not for the severity call. The moment of misery and the persona both had to come from reading the raw notes myself. This is where I started checking its claims against the source every time, and I kept doing that for the rest of the project. More on that in [`06-launch/individual-insights.md`](../06-launch/individual-insights.md).

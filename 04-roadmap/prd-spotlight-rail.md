@@ -73,7 +73,7 @@ Playback-started confirmation; title being played; an indicator showing whether 
 11. **First-run introduction.** The first time a viewer sees the rail, a one-time introduction plays: the rail header reveals its attribution — who chose these titles and how often they change — and the cards animate in in sequence. It never blocks interaction, and it never repeats for that viewer.
 12. Where the viewer's system requests reduced motion, the introduction renders as the same static attribution label, shown once, with no animation.
 13. **Persistent attribution subline.** A short line sits under the rail heading on every render: "Chosen weekly by our editors." It does not depend on the first-run introduction and does not disappear once that has played. Without it, a viewer who misses or forgets the introduction sees a rail indistinguishable from any algorithmic row.
-14. **Editorial selection rule.** The weekly selection does not lean on titles most of the base has already watched. Where the per-viewer check in FR10 is unavailable, this rule is the only thing stopping the rail from showing someone what they have already seen. It is a curation guideline, not a build dependency, which is why the watch-history integration could be demoted to Should without putting the MVP at risk.
+14. **Editorial selection rule.** The weekly selection avoids titles most of the base has already watched. Where the per-viewer check in FR10 is unavailable, this rule is what stops the rail showing someone what they have already seen. It is a curation guideline, not something to build, which is why the watch-history integration could move to Should without putting the MVP at risk.
 
 ### Smart behaviors
 

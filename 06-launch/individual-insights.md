@@ -26,7 +26,7 @@ I noticed this in the Module 1 self-review. It was a fair moment to pivot — ei
 
 It partly worked out. The Module 3 data showed Spotlight had been running as a pilot since December and those cohorts retain 12–15 points better, which is behavioural evidence that people do use a curated surface and stay. But I did not go looking for that; it turned up later, in a data snapshot I had not read yet.
 
-So the honest version is not "I should have pivoted." It is that I was comfortable building on stated preference for longer than I should have been, and what rescued it was data that had been sitting there the whole time.
+What I take from it is this: I was comfortable building on what people said they wanted for longer than I should have been, and what rescued me was data that had been sitting there the whole time.
 
 ## Key learnings
 
