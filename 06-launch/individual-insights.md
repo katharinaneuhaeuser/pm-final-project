@@ -47,3 +47,13 @@ This came from my instructor's feedback and it turned out to be the most useful 
 It also works as a test. Every time I could not say something simply, it was for one of two reasons: either I did not understand it well enough yet, or the argument had a hole in it that the complicated wording was covering. Simplifying did not water the analysis down — it made the weak points obvious, and it made the whole thing easier to work on.
 
 I have already started applying it at work, on complex topics and on tech-heavy ticket descriptions. My team has noticed the difference in how easily we communicate.
+
+## What I take forward
+
+**Read all the data before committing to a metric.** Two of the three data snapshots sat unread for a fortnight while I built on the third. Both of them changed the answer when I finally opened them — one gave me a measured baseline to replace a number I had reasoned my way to, and the other told me the feature I was proposing had already been running as a pilot since December. Nothing about that was hard to find. I just had not looked.
+
+**Get behavioural evidence for the solution, not only for the problem.** I had strong evidence that people give up, and much weaker evidence that curation is what they would use instead. I noticed the gap and kept going. Next time that is the point to stop and go looking, rather than to write the weakness down and move on.
+
+**Back my own judgement, and say when I am using it.** Choosing casual browsers over Wanderers was the point in this project where I went with my own experience instead of the number the data pointed at. I want to do more of that. The frameworks give me the structure and I am much more comfortable reaching for them now, but the call is still mine to make — and the honest thing is to label it a judgement rather than dress it up as a result. That combination is what I can actually bring to a team.
+
+**Keep making problems easy to understand.** Plain language is the fastest way to find a hole in my own argument, and it is also what my team noticed first. This is the habit I most want to keep.

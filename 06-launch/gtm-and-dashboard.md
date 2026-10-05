@@ -112,7 +112,7 @@ That leaves three genuine channels, none of which can run before the launch mome
 
 *Names are placeholders for a case study; the roles are what the plan actually depends on.*
 
-**No media spend**, because there is no paid channel. The single budget ask is **ongoing editorial headcount** — the weekly curation that never stops once the rail ships — and it is precisely what the M5 MDE was set against: below +2 percentage points the rail does not pay for the people who curate it.
+**No media spend**, because there is no paid channel. The single budget ask is **ongoing editorial headcount** — the weekly curation that never stops once the rail ships — and it is precisely what the M5 MDE was set against: below +3 percentage points the rail does not pay for the people who curate it.
 
 **Asset gap:** curator bios and photos. Needed properly for A7 (Curator Profiles) next sprint; names only at launch, since the byline is a Could-have in the M4 scope.
 
@@ -157,7 +157,7 @@ Matched to the engagement goal:
 3. **Casual browsers with at least one 30+ minute session per week** — the M5 primary. 11% baseline, down from 19%; target 14%. *Product-level. Answers: did the evening actually happen?* The case's own critical signal, and the number this initiative is judged on.
 4. **Casual-browser sessions per week** — 2.3 today, target 2.8. *Product-level. Answers: did it change the habit, or only the session?* The behaviour change that precedes churn reduction, and the reason the 90-day read is worth waiting for.
 
-**Bad signal to watch for.** High rail impressions with flat card opens. That means the rail is being scrolled past — it reads as another promotional row rather than as something a person chose. The fix is attribution and copy, not more titles; adding titles to a row nobody looks at makes it worse. A second, subtler bad signal: new-title play rate up while early-abandon rate is also up, which means we persuaded people to start things they did not want. That is what the second guardrail exists to catch.
+**Bad signal to watch for.** High rail impressions with flat card opens. That means the rail is being scrolled past — it reads as another promotional row rather than as something a person chose. The fix is attribution and copy, not more titles; adding titles to a row nobody looks at makes it worse. A second, subtler bad signal: 30-minute sessions up while Month-1 retention is flat or falling. That would mean we made individual evenings longer without making people more likely to come back — depth bought with retention, which is not what the initiative is for. That is what the second guardrail exists to catch.
 
 **Most likely post-launch decision: iterate.**
 
